@@ -1,0 +1,471 @@
+/* =========================================
+   PACELET NAVBAR
+   ========================================= */
+
+.pacelet-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 76px;
+
+    z-index: 1000;
+
+    background: rgba(255, 252, 248, 0.94);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    border-bottom: 1px solid #eee9ed;
+
+    transition:
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+   ========================================= */
+
+.navbar-container {
+    width: min(1400px, calc(100% - 48px));
+    height: 100%;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 24px;
+}
+
+
+/* =========================================
+   BRAND
+   ========================================= */
+
+.pacelet-brand {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    text-decoration: none;
+    color: #1f1f1f;
+
+    flex-shrink: 0;
+}
+
+.pacelet-logo {
+    width: 42px;
+    height: 42px;
+
+    object-fit: contain;
+
+    border-radius: 50%;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+
+    flex-shrink: 0;
+}
+
+.brand-name {
+    font-family: "Plus Jakarta Sans", sans-serif;
+
+    font-size: 20px;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    line-height: 1;
+}
+
+.brand-tagline {
+    margin-top: 4px;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 7px;
+    font-weight: 600;
+
+    letter-spacing: 0.16em;
+
+    color: #8f7c91;
+}
+
+
+/* =========================================
+   DESKTOP NAVIGATION
+   ========================================= */
+
+.desktop-navigation {
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 24px;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+.desktop-navigation a {
+    position: relative;
+
+    white-space: nowrap;
+
+    text-decoration: none;
+
+    color: #454247;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    transition: color 0.2s ease;
+}
+
+.desktop-navigation a:hover {
+    color: #9b82a0;
+}
+
+.desktop-navigation a::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    bottom: -8px;
+
+    width: 0;
+    height: 1px;
+
+    background: #a78bfa;
+
+    transition: width 0.2s ease;
+}
+
+.desktop-navigation a:hover::after {
+    width: 100%;
+}
+
+
+/* =========================================
+   NAVBAR ACTIONS
+   ========================================= */
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 2px;
+
+    flex-shrink: 0;
+}
+
+
+/* =========================================
+   ICON BUTTONS
+   ========================================= */
+
+.nav-icon-button,
+.profile-button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #2c292d;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.nav-icon-button:hover,
+.profile-button:hover {
+    background: #f4eef6;
+}
+
+.nav-icon-button:active,
+.profile-button:active {
+    transform: scale(0.94);
+}
+
+
+/* =========================================
+   MATERIAL SYMBOLS
+   ========================================= */
+
+.material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+
+    font-weight: normal;
+    font-style: normal;
+
+    font-size: 21px;
+
+    line-height: 1;
+
+    letter-spacing: normal;
+
+    text-transform: none;
+
+    display: inline-block;
+
+    white-space: nowrap;
+
+    word-wrap: normal;
+
+    direction: ltr;
+
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+
+    font-feature-settings: "liga";
+
+    font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+}
+
+
+/* =========================================
+   BADGES
+   ========================================= */
+
+.nav-badge-wrapper {
+    position: relative;
+}
+
+.nav-count {
+    position: absolute;
+
+    top: 3px;
+    right: 1px;
+
+    min-width: 16px;
+    height: 16px;
+
+    padding: 0 4px;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50px;
+
+    background: #a78bfa;
+
+    color: white;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* =========================================
+   MOBILE MENU BUTTON
+   ========================================= */
+
+.mobile-menu-button {
+    display: none;
+}
+
+
+/* =========================================
+   MOBILE DRAWER
+   ========================================= */
+
+.mobile-menu {
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: min(340px, 85vw);
+    height: 100vh;
+
+    background: #fff;
+
+    z-index: 1100;
+
+    transform: translateX(-100%);
+
+    transition: transform 0.3s ease;
+
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.08);
+
+    padding: 24px;
+}
+
+.mobile-menu.open {
+    transform: translateX(0);
+}
+
+.mobile-menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding-bottom: 24px;
+
+    border-bottom: 1px solid #eee9ed;
+}
+
+.mobile-menu-header span {
+    font-family: "Inter", sans-serif;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.16em;
+}
+
+.mobile-navigation {
+    display: flex;
+    flex-direction: column;
+
+    padding-top: 20px;
+}
+
+.mobile-navigation a {
+    padding: 16px 0;
+
+    border-bottom: 1px solid #f0edf0;
+
+    text-decoration: none;
+
+    color: #29262a;
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+
+    font-size: 16px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 1100px) {
+
+    .navbar-container {
+        width: calc(100% - 32px);
+        gap: 16px;
+    }
+
+    .desktop-navigation {
+        gap: 16px;
+    }
+
+    .desktop-navigation a {
+        font-size: 12px;
+    }
+
+}
+
+
+@media (max-width: 900px) {
+
+    .desktop-navigation {
+        display: none;
+    }
+
+    .mobile-menu-button {
+        display: flex;
+    }
+
+    .navbar-container {
+        width: calc(100% - 28px);
+
+        gap: 8px;
+    }
+
+    .pacelet-brand {
+        margin-right: auto;
+    }
+
+    .brand-name {
+        font-size: 17px;
+    }
+
+    .brand-tagline {
+        display: none;
+    }
+
+    .pacelet-logo {
+        width: 38px;
+        height: 38px;
+    }
+
+    .navbar-actions {
+        gap: 0;
+    }
+
+    .profile-button {
+        display: none;
+    }
+
+}
+
+
+/* =========================================
+   SMALL MOBILE
+   ========================================= */
+
+@media (max-width: 480px) {
+
+    .navbar-container {
+        width: calc(100% - 20px);
+    }
+
+    .nav-icon-button,
+    .profile-button {
+        width: 38px;
+        height: 38px;
+    }
+
+    .material-symbols-outlined {
+        font-size: 20px;
+    }
+
+    .pacelet-logo {
+        width: 34px;
+        height: 34px;
+    }
+
+    .brand-name {
+        font-size: 16px;
+    }
+
+}
