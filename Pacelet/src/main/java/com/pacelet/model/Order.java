@@ -1,3 +1,4 @@
+
 package com.pacelet.model;
 
 import java.io.Serializable;
@@ -14,21 +15,13 @@ public class Order implements Serializable {
     // =========================
 
     private String orderId;
-
     private double bagTotal;
-
     private double discount;
-
     private double total;
-
     private String couponCode;
-
     private String paymentMethod;
-
     private String status;
-
     private Date orderDate;
-
 
     // =========================
     // ORDER ITEMS
@@ -36,29 +29,20 @@ public class Order implements Serializable {
 
     private List<CartItem> items;
 
-
     // =========================
     // SHIPPING DETAILS
     // =========================
 
     private String fullName;
-
     private String phone;
-
     private String addressLine;
-
     private String city;
-
     private String state;
-
     private String pincode;
-
 
     // =========================
     // EXISTING CONSTRUCTOR
     // =========================
-    // Keep this constructor so
-    // existing code does not break.
 
     public Order(
             String orderId,
@@ -69,7 +53,6 @@ public class Order implements Serializable {
             String paymentMethod,
             String status
     ) {
-
         this.orderId = orderId;
         this.bagTotal = bagTotal;
         this.discount = discount;
@@ -77,15 +60,12 @@ public class Order implements Serializable {
         this.couponCode = couponCode;
         this.paymentMethod = paymentMethod;
         this.status = status;
-
         this.orderDate = new Date();
-
         this.items = new ArrayList<>();
     }
 
-
     // =========================
-    // NEW FULL CONSTRUCTOR
+    // FULL CONSTRUCTOR
     // =========================
 
     public Order(
@@ -104,46 +84,26 @@ public class Order implements Serializable {
             String state,
             String pincode
     ) {
-
         this.orderId = orderId;
-
         this.bagTotal = bagTotal;
-
         this.discount = discount;
-
         this.total = total;
-
         this.couponCode = couponCode;
-
         this.paymentMethod = paymentMethod;
-
         this.status = status;
-
         this.orderDate = new Date();
-
-
-        // Create a separate list so that
-        // future cart changes don't affect
-        // this order.
 
         this.items = items != null
                 ? new ArrayList<>(items)
                 : new ArrayList<>();
 
-
         this.fullName = fullName;
-
         this.phone = phone;
-
         this.addressLine = addressLine;
-
         this.city = city;
-
         this.state = state;
-
         this.pincode = pincode;
     }
-
 
     // =========================
     // ORDER GETTERS
@@ -178,13 +138,12 @@ public class Order implements Serializable {
     }
 
     public void setStatus(String status) {
-    this.status = status;
-}
+        this.status = status;
+    }
 
     public Date getOrderDate() {
         return orderDate;
     }
-
 
     // =========================
     // ORDER ITEMS
@@ -195,12 +154,10 @@ public class Order implements Serializable {
     }
 
     public void setItems(List<CartItem> items) {
-
         this.items = items != null
                 ? new ArrayList<>(items)
                 : new ArrayList<>();
     }
-
 
     // =========================
     // SHIPPING GETTERS

@@ -1,4 +1,10 @@
+
 package com.pacelet.controller;
+
+import com.pacelet.dao.UserDAO;
+import com.pacelet.dao.UserDAO.UserProfileData;
+import com.pacelet.data.OrderStore;
+import com.pacelet.model.Order;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,9 +14,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/profile")
 public class ProfileServlet extends HttpServlet {
+
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(
@@ -18,111 +27,77 @@ public class ProfileServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
-        // =========================================
-        // USER / PROFILE DETAILS
-        // =========================================
+        // Require login
+        if (session == null || session.getAttribute("userId") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-        String fullName =
-                (String) session.getAttribute("shippingFullName");
+        int userId = (Integer) session.getAttribute("userId");
 
-        String phone =
-                (String) session.getAttribute("shippingPhone");
+        try {
+            // Load profile from database
+            UserProfileData profile = userDAO.findProfileById(userId);
 
-        String address =
-                (String) session.getAttribute("shippingAddressLine");
+            if (profile == null) {
+                session.invalidate();
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
 
-        String city =
-                (String) session.getAttribute("shippingCity");
+            // Refresh session name for navbar
+            session.setAttribute("userName", profile.getFullName());
 
-        String state =
-                (String) session.getAttribute("shippingState");
+            request.setAttribute("fullName", profile.getFullName());
+            request.setAttribute("email", profile.getEmail());
+            request.setAttribute("phone", profile.getPhone());
+            request.setAttribute("address", profile.getAddressLine());
+            request.setAttribute("city", profile.getCity());
+            request.setAttribute("state", profile.getState());
+            request.setAttribute("pincode", profile.getPincode());
 
-        String pincode =
-                (String) session.getAttribute("shippingPincode");
+            // Latest order details (existing in-memory functionality)
+            String orderId = (String) session.getAttribute("lastOrderId");
 
+            Double totalObj =
+                    (Double) session.getAttribute("lastOrderTotal");
 
-        // =========================================
-        // LAST ORDER DETAILS
-        // =========================================
+            double total = totalObj != null ? totalObj : 0;
 
-        String orderId =
-                (String) session.getAttribute("lastOrderId");
+            String paymentMethod = (String) session.getAttribute(
+                    "lastOrderPaymentMethod"
+            );
 
-        Double totalObj =
-                (Double) session.getAttribute("lastOrderTotal");
+            Order latestOrder = null;
 
-        double total =
-                totalObj != null ? totalObj : 0;
+            List<Order> orders = OrderStore.getOrders();
 
+            // Only show an order belonging to the logged-in user.
+            // OrderStore currently does not associate orders with user IDs,
+            // so do not assume its first order belongs to this user.
 
-        String paymentMethod =
-                (String) session.getAttribute(
-                        "lastOrderPaymentMethod"
-                );
+            if (orderId != null) {
+                latestOrder = OrderStore.getOrder(orderId);
+            }
 
+            if (latestOrder != null) {
+                total = latestOrder.getTotal();
+                paymentMethod = latestOrder.getPaymentMethod();
 
-        // =========================================
-        // SEND DATA TO JSP
-        // =========================================
+                request.setAttribute("latestOrder", latestOrder);
+            }
 
-        request.setAttribute(
-                "fullName",
-                fullName
-        );
+            request.setAttribute("orderId", orderId);
+            request.setAttribute("total", total);
+            request.setAttribute("paymentMethod", paymentMethod);
 
-        request.setAttribute(
-                "phone",
-                phone
-        );
+            request.getRequestDispatcher("/profile.jsp")
+                    .forward(request, response);
 
-        request.setAttribute(
-                "address",
-                address
-        );
-
-        request.setAttribute(
-                "city",
-                city
-        );
-
-        request.setAttribute(
-                "state",
-                state
-        );
-
-        request.setAttribute(
-                "pincode",
-                pincode
-        );
-
-
-        request.setAttribute(
-                "orderId",
-                orderId
-        );
-
-        request.setAttribute(
-                "total",
-                total
-        );
-
-        request.setAttribute(
-                "paymentMethod",
-                paymentMethod
-        );
-
-
-        // =========================================
-        // OPEN PROFILE PAGE
-        // =========================================
-
-        request.getRequestDispatcher(
-                "/profile.jsp"
-        ).forward(
-                request,
-                response
-        );
+        } catch (java.sql.SQLException e) {
+            throw new ServletException("Unable to load profile.", e);
+        }
     }
 }

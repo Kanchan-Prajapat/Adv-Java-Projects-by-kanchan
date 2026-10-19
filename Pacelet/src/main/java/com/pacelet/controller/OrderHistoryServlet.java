@@ -1,5 +1,7 @@
+
 package com.pacelet.controller;
 
+import com.pacelet.data.OrderStore;
 import com.pacelet.model.Order;
 
 import jakarta.servlet.ServletException;
@@ -7,10 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/orders")
@@ -22,30 +22,26 @@ public class OrderHistoryServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        // ==========================================
+        // 1. GET ALL ORDERS
+        // ==========================================
 
-        // Get all orders from session
-        @SuppressWarnings("unchecked")
-        List<Order> orders =
-                (List<Order>) session.getAttribute("orders");
+        List<Order> orders = OrderStore.getOrders();
 
-        // If no orders exist, create empty list
-        if (orders == null) {
-            orders = new ArrayList<>();
-        }
 
-        // Send orders to JSP
-        request.setAttribute(
-                "orders",
-                orders
-        );
+        // ==========================================
+        // 2. SEND ORDERS TO JSP
+        // ==========================================
 
-        // Open orders page
+        request.setAttribute("orders", orders);
+
+
+        // ==========================================
+        // 3. OPEN ORDER HISTORY PAGE
+        // ==========================================
+
         request.getRequestDispatcher(
                 "/orders.jsp"
-        ).forward(
-                request,
-                response
-        );
+        ).forward(request, response);
     }
 }

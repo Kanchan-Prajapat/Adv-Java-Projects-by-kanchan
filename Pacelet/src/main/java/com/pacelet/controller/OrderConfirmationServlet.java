@@ -1,4 +1,8 @@
+
 package com.pacelet.controller;
+
+import com.pacelet.data.OrderStore;
+import com.pacelet.model.Order;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -18,8 +22,7 @@ public class OrderConfirmationServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        HttpSession session =
-                request.getSession();
+        HttpSession session = request.getSession();
 
 
         // =========================================
@@ -27,151 +30,56 @@ public class OrderConfirmationServlet extends HttpServlet {
         // =========================================
 
         String orderId =
-                (String) session.getAttribute(
-                        "lastOrderId"
-                );
+                (String) session.getAttribute("lastOrderId");
 
-        Double bagTotalObj =
-                (Double) session.getAttribute(
-                        "lastOrderBagTotal"
-                );
+        Order order = OrderStore.getOrder(orderId);
 
-        Double discountObj =
-                (Double) session.getAttribute(
-                        "lastOrderDiscount"
-                );
+        if (order == null) {
+            response.sendRedirect(
+                    request.getContextPath() + "/shop"
+            );
+            return;
+        }
 
-        Double totalObj =
-                (Double) session.getAttribute(
-                        "lastOrderTotal"
-                );
+        double bagTotal = order.getBagTotal();
+        double discount = order.getDiscount();
+        double total = order.getTotal();
 
+        String couponCode = order.getCouponCode();
 
-        double bagTotal =
-                bagTotalObj != null
-                        ? bagTotalObj
-                        : 0;
-
-        double discount =
-                discountObj != null
-                        ? discountObj
-                        : 0;
-
-        double total =
-                totalObj != null
-                        ? totalObj
-                        : 0;
-
-
-        String couponCode =
-                (String) session.getAttribute(
-                        "lastOrderCoupon"
-                );
-
-        String paymentMethod =
-                (String) session.getAttribute(
-                        "lastOrderPaymentMethod"
-                );
+        String paymentMethod = order.getPaymentMethod();
 
 
         // =========================================
         // SHIPPING DETAILS
         // =========================================
 
-        String fullName =
-                (String) session.getAttribute(
-                        "lastOrderFullName"
-                );
+        String fullName = order.getFullName();
+        String phone = order.getPhone();
 
-        String phone =
-                (String) session.getAttribute(
-                        "lastOrderPhone"
-                );
-
-        String address =
-                (String) session.getAttribute(
-                        "lastOrderAddress"
-                );
-
-        String city =
-                (String) session.getAttribute(
-                        "lastOrderCity"
-                );
-
-        String state =
-                (String) session.getAttribute(
-                        "lastOrderState"
-                );
-
-        String pincode =
-                (String) session.getAttribute(
-                        "lastOrderPincode"
-                );
+        String address = order.getAddressLine();
+        String city = order.getCity();
+        String state = order.getState();
+        String pincode = order.getPincode();
 
 
         // =========================================
         // SEND TO JSP
         // =========================================
 
-        request.setAttribute(
-                "orderId",
-                orderId
-        );
+        request.setAttribute("orderId", orderId);
+        request.setAttribute("bagTotal", bagTotal);
+        request.setAttribute("discount", discount);
+        request.setAttribute("total", total);
+        request.setAttribute("couponCode", couponCode);
+        request.setAttribute("paymentMethod", paymentMethod);
 
-        request.setAttribute(
-                "bagTotal",
-                bagTotal
-        );
-
-        request.setAttribute(
-                "discount",
-                discount
-        );
-
-        request.setAttribute(
-                "total",
-                total
-        );
-
-        request.setAttribute(
-                "couponCode",
-                couponCode
-        );
-
-        request.setAttribute(
-                "paymentMethod",
-                paymentMethod
-        );
-
-        request.setAttribute(
-                "fullName",
-                fullName
-        );
-
-        request.setAttribute(
-                "phone",
-                phone
-        );
-
-        request.setAttribute(
-                "address",
-                address
-        );
-
-        request.setAttribute(
-                "city",
-                city
-        );
-
-        request.setAttribute(
-                "state",
-                state
-        );
-
-        request.setAttribute(
-                "pincode",
-                pincode
-        );
+        request.setAttribute("fullName", fullName);
+        request.setAttribute("phone", phone);
+        request.setAttribute("address", address);
+        request.setAttribute("city", city);
+        request.setAttribute("state", state);
+        request.setAttribute("pincode", pincode);
 
 
         // =========================================
@@ -180,9 +88,6 @@ public class OrderConfirmationServlet extends HttpServlet {
 
         request.getRequestDispatcher(
                 "/order-confirmation.jsp"
-        ).forward(
-                request,
-                response
-        );
+        ).forward(request, response);
     }
 }

@@ -1,4 +1,8 @@
+
 package com.pacelet.controller;
+
+import com.pacelet.dao.UserDAO;
+import com.pacelet.dao.UserDAO.UserProfileData;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -8,9 +12,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet("/profile/edit")
 public class EditProfileServlet extends HttpServlet {
+
+    private final UserDAO userDAO = new UserDAO();
 
     @Override
     protected void doGet(
@@ -18,45 +25,37 @@ public class EditProfileServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
-        // Personal details
-        request.setAttribute(
-                "fullName",
-                session.getAttribute("shippingFullName")
-        );
+        if (session == null || session.getAttribute("userId") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
+            return;
+        }
 
-        request.setAttribute(
-                "phone",
-                session.getAttribute("shippingPhone")
-        );
+        int userId = (Integer) session.getAttribute("userId");
 
-        // Address details
-        request.setAttribute(
-                "pincode",
-                session.getAttribute("shippingPincode")
-        );
+        try {
+            UserProfileData profile = userDAO.findProfileById(userId);
 
-        request.setAttribute(
-                "addressLine",
-                session.getAttribute("shippingAddressLine")
-        );
+            if (profile == null) {
+                response.sendRedirect(request.getContextPath() + "/login");
+                return;
+            }
 
-        request.setAttribute(
-                "city",
-                session.getAttribute("shippingCity")
-        );
+            request.setAttribute("fullName", profile.getFullName());
+            request.setAttribute("phone", profile.getPhone());
+            request.setAttribute("pincode", profile.getPincode());
+            request.setAttribute("addressLine", profile.getAddressLine());
+            request.setAttribute("city", profile.getCity());
+            request.setAttribute("state", profile.getState());
 
-        request.setAttribute(
-                "state",
-                session.getAttribute("shippingState")
-        );
+            request.getRequestDispatcher("/edit-profile.jsp")
+                    .forward(request, response);
 
-        request.getRequestDispatcher(
-                "/edit-profile.jsp"
-        ).forward(request, response);
+        } catch (SQLException e) {
+            throw new ServletException("Unable to load profile for editing.", e);
+        }
     }
-
 
     @Override
     protected void doPost(
@@ -66,210 +65,111 @@ public class EditProfileServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-        String fullName =
-                request.getParameter("fullName");
+        HttpSession session = request.getSession(false);
 
-        String phone =
-                request.getParameter("phone");
-
-        String pincode =
-                request.getParameter("pincode");
-
-        String addressLine =
-                request.getParameter("addressLine");
-
-        String city =
-                request.getParameter("city");
-
-        String state =
-                request.getParameter("state");
-
-
-        // =========================================
-        // VALIDATION
-        // =========================================
-
-        if (
-                fullName == null || fullName.isBlank()
-                || phone == null || phone.isBlank()
-                || pincode == null || pincode.isBlank()
-                || addressLine == null || addressLine.isBlank()
-                || city == null || city.isBlank()
-                || state == null || state.isBlank()
-        ) {
-
-            request.setAttribute(
-                    "error",
-                    "Please fill all required fields."
-            );
-
-            setFormAttributes(
-                    request,
-                    fullName,
-                    phone,
-                    pincode,
-                    addressLine,
-                    city,
-                    state
-            );
-
-            request.getRequestDispatcher(
-                    "/edit-profile.jsp"
-            ).forward(request, response);
-
+        if (session == null || session.getAttribute("userId") == null) {
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
 
+        int userId = (Integer) session.getAttribute("userId");
 
-        // =========================================
-        // PHONE VALIDATION
-        // =========================================
+        String fullName = trim(request.getParameter("fullName"));
+        String phone = trim(request.getParameter("phone"));
+        String pincode = trim(request.getParameter("pincode"));
+        String addressLine = trim(request.getParameter("addressLine"));
+        String city = trim(request.getParameter("city"));
+        String state = trim(request.getParameter("state"));
 
+        // Required-field validation
+        if (fullName.isEmpty()
+                || phone.isEmpty()
+                || pincode.isEmpty()
+                || addressLine.isEmpty()
+                || city.isEmpty()
+                || state.isEmpty()) {
+
+            showError(request, response,
+                    "Please fill all required fields.",
+                    fullName, phone, pincode, addressLine, city, state);
+            return;
+        }
+
+        // Phone validation
         if (!phone.matches("\\d{10}")) {
-
-            request.setAttribute(
-                    "error",
-                    "Please enter a valid 10-digit phone number."
-            );
-
-            setFormAttributes(
-                    request,
-                    fullName,
-                    phone,
-                    pincode,
-                    addressLine,
-                    city,
-                    state
-            );
-
-            request.getRequestDispatcher(
-                    "/edit-profile.jsp"
-            ).forward(request, response);
-
+            showError(request, response,
+                    "Please enter a valid 10-digit phone number.",
+                    fullName, phone, pincode, addressLine, city, state);
             return;
         }
 
-
-        // =========================================
-        // PINCODE VALIDATION
-        // =========================================
-
+        // Pincode validation
         if (!pincode.matches("\\d{6}")) {
-
-            request.setAttribute(
-                    "error",
-                    "Please enter a valid 6-digit pincode."
-            );
-
-            setFormAttributes(
-                    request,
-                    fullName,
-                    phone,
-                    pincode,
-                    addressLine,
-                    city,
-                    state
-            );
-
-            request.getRequestDispatcher(
-                    "/edit-profile.jsp"
-            ).forward(request, response);
-
+            showError(request, response,
+                    "Please enter a valid 6-digit pincode.",
+                    fullName, phone, pincode, addressLine, city, state);
             return;
         }
 
+        try {
+            boolean updated = userDAO.updateProfile(
+                    userId,
+                    fullName,
+                    phone,
+                    addressLine,
+                    city,
+                    state,
+                    pincode
+            );
 
-        // =========================================
-        // UPDATE SESSION
-        // =========================================
+            if (!updated) {
+                showError(request, response,
+                        "Profile could not be updated. Please log in again.",
+                        fullName, phone, pincode, addressLine, city, state);
+                return;
+            }
 
-        HttpSession session =
-                request.getSession();
+            // Keep session data in sync for checkout/navbar compatibility
+            session.setAttribute("userName", fullName);
+            session.setAttribute("shippingFullName", fullName);
+            session.setAttribute("shippingPhone", phone);
+            session.setAttribute("shippingPincode", pincode);
+            session.setAttribute("shippingAddressLine", addressLine);
+            session.setAttribute("shippingCity", city);
+            session.setAttribute("shippingState", state);
 
-        session.setAttribute(
-                "shippingFullName",
-                fullName.trim()
-        );
+            response.sendRedirect(request.getContextPath() + "/profile");
 
-        session.setAttribute(
-                "shippingPhone",
-                phone.trim()
-        );
-
-        session.setAttribute(
-                "shippingPincode",
-                pincode.trim()
-        );
-
-        session.setAttribute(
-                "shippingAddressLine",
-                addressLine.trim()
-        );
-
-        session.setAttribute(
-                "shippingCity",
-                city.trim()
-        );
-
-        session.setAttribute(
-                "shippingState",
-                state.trim()
-        );
-
-
-        // =========================================
-        // BACK TO PROFILE
-        // =========================================
-
-        response.sendRedirect(
-                request.getContextPath()
-                        + "/profile"
-        );
+        } catch (SQLException e) {
+            throw new ServletException("Unable to update profile.", e);
+        }
     }
 
+    private String trim(String value) {
+        return value == null ? "" : value.trim();
+    }
 
-    // =========================================
-    // FORM ATTRIBUTES
-    // =========================================
-
-    private void setFormAttributes(
+    private void showError(
             HttpServletRequest request,
+            HttpServletResponse response,
+            String message,
             String fullName,
             String phone,
             String pincode,
             String addressLine,
             String city,
             String state
-    ) {
+    ) throws ServletException, IOException {
 
-        request.setAttribute(
-                "fullName",
-                fullName
-        );
+        request.setAttribute("error", message);
+        request.setAttribute("fullName", fullName);
+        request.setAttribute("phone", phone);
+        request.setAttribute("pincode", pincode);
+        request.setAttribute("addressLine", addressLine);
+        request.setAttribute("city", city);
+        request.setAttribute("state", state);
 
-        request.setAttribute(
-                "phone",
-                phone
-        );
-
-        request.setAttribute(
-                "pincode",
-                pincode
-        );
-
-        request.setAttribute(
-                "addressLine",
-                addressLine
-        );
-
-        request.setAttribute(
-                "city",
-                city
-        );
-
-        request.setAttribute(
-                "state",
-                state
-        );
+        request.getRequestDispatcher("/edit-profile.jsp")
+                .forward(request, response);
     }
 }

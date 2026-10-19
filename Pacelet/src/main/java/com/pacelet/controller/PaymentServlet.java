@@ -1,3 +1,4 @@
+
 package com.pacelet.controller;
 
 import com.pacelet.model.CartItem;
@@ -22,9 +23,7 @@ public class PaymentServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        HttpSession session =
-                request.getSession();
-
+        HttpSession session = request.getSession();
 
         // =========================================
         // GET CART
@@ -34,12 +33,12 @@ public class PaymentServlet extends HttpServlet {
         List<CartItem> cart =
                 (List<CartItem>) session.getAttribute("cart");
 
-
-        if (cart == null) {
-
-            cart = new ArrayList<>();
+        if (cart == null || cart.isEmpty()) {
+            response.sendRedirect(
+                    request.getContextPath() + "/cart"
+            );
+            return;
         }
-
 
         // =========================================
         // CALCULATE BAG TOTAL
@@ -48,120 +47,58 @@ public class PaymentServlet extends HttpServlet {
         double bagTotal = 0;
 
         for (CartItem item : cart) {
-
-            bagTotal +=
-                    item.getPrice()
-                    * item.getQuantity();
+            bagTotal += item.getPrice() * item.getQuantity();
         }
-
 
         // =========================================
         // COUPON
         // =========================================
 
         Double discountObj =
-                (Double) session.getAttribute(
-                        "appliedDiscount"
-                );
-
+                (Double) session.getAttribute("appliedDiscount");
 
         double appliedDiscount =
-                discountObj != null
-                        ? discountObj
-                        : 0;
-
+                discountObj != null ? discountObj : 0;
 
         String couponCode =
-                (String) session.getAttribute(
-                        "couponCode"
-                );
-
+                (String) session.getAttribute("couponCode");
 
         // =========================================
         // PREVENT INVALID DISCOUNT
         // =========================================
 
-        if (appliedDiscount > bagTotal) {
-
-            appliedDiscount = bagTotal;
-        }
-
+        appliedDiscount = Math.max(
+                0,
+                Math.min(appliedDiscount, bagTotal)
+        );
 
         // =========================================
         // FINAL PAYABLE
         // =========================================
 
-        double totalPayable =
-                bagTotal - appliedDiscount;
-
-
-        if (totalPayable < 0) {
-
-            totalPayable = 0;
-        }
-
+        double totalPayable = bagTotal - appliedDiscount;
 
         // =========================================
         // PREVIOUS PAYMENT DETAILS
         // =========================================
 
         String paymentMethod =
-                (String) session.getAttribute(
-                        "paymentMethod"
-                );
-
+                (String) session.getAttribute("paymentMethod");
 
         String upiId =
-                (String) session.getAttribute(
-                        "upiId"
-                );
-
+                (String) session.getAttribute("upiId");
 
         // =========================================
         // SEND DATA TO JSP
         // =========================================
 
-        request.setAttribute(
-                "cart",
-                cart
-        );
-
-
-        request.setAttribute(
-                "bagTotal",
-                bagTotal
-        );
-
-
-        request.setAttribute(
-                "appliedDiscount",
-                appliedDiscount
-        );
-
-
-        request.setAttribute(
-                "couponCode",
-                couponCode
-        );
-
-
-        request.setAttribute(
-                "totalPayable",
-                totalPayable
-        );
-
-
-        request.setAttribute(
-                "paymentMethod",
-                paymentMethod
-        );
-
-
-        request.setAttribute(
-                "upiId",
-                upiId
-        );
-
+        request.setAttribute("cart", cart);
+        request.setAttribute("bagTotal", bagTotal);
+        request.setAttribute("appliedDiscount", appliedDiscount);
+        request.setAttribute("couponCode", couponCode);
+        request.setAttribute("totalPayable", totalPayable);
+        request.setAttribute("paymentMethod", paymentMethod);
+        request.setAttribute("upiId", upiId);
 
         // =========================================
         // PAYMENT PAGE
@@ -169,12 +106,8 @@ public class PaymentServlet extends HttpServlet {
 
         request.getRequestDispatcher(
                 "/payment.jsp"
-        ).forward(
-                request,
-                response
-        );
+        ).forward(request, response);
     }
-
 
     // =========================================
     // POST
@@ -188,44 +121,38 @@ public class PaymentServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
 
-
         // =========================================
         // PAYMENT METHOD
         // =========================================
 
         String paymentMethod =
-                request.getParameter(
-                        "paymentMethod"
-                );
-
+                request.getParameter("paymentMethod");
 
         String upiId =
-                request.getParameter(
-                        "upiId"
-                );
-
+                request.getParameter("upiId");
 
         // =========================================
         // VALIDATE PAYMENT METHOD
         // =========================================
+// =========================================
+// VALIDATE PAYMENT METHOD
+// =========================================
 
-        if (paymentMethod == null
-                || paymentMethod.isBlank()) {
+if (paymentMethod == null
+        || paymentMethod.isBlank()
+        || (!"UPI".equals(paymentMethod)
+        && !"Cards".equals(paymentMethod)
+        && !"Netbanking".equals(paymentMethod)
+        && !"COD".equals(paymentMethod))) {
 
-            request.setAttribute(
-                    "paymentError",
-                    "Please select a payment method."
-            );
+    request.setAttribute(
+            "paymentError",
+            "Please select a valid payment method."
+    );
 
-
-            doGet(
-                    request,
-                    response
-            );
-
-            return;
-        }
-
+    doGet(request, response);
+    return;
+}
 
         // =========================================
         // UPI VALIDATION
@@ -233,72 +160,48 @@ public class PaymentServlet extends HttpServlet {
 
         if ("UPI".equals(paymentMethod)) {
 
-            if (upiId == null
-                    || upiId.isBlank()) {
+            if (upiId == null || upiId.isBlank()) {
 
                 request.setAttribute(
                         "paymentError",
                         "Please enter your UPI ID."
                 );
 
-
-                doGet(
-                        request,
-                        response
-                );
-
+                doGet(request, response);
                 return;
             }
 
-
             upiId = upiId.trim();
         }
-
 
         // =========================================
         // SESSION
         // =========================================
 
-        HttpSession session =
-                request.getSession();
-
+        HttpSession session = request.getSession();
 
         // =========================================
         // SAVE PAYMENT METHOD
         // =========================================
 
-        session.setAttribute(
-                "paymentMethod",
-                paymentMethod
-        );
-
+        session.setAttribute("paymentMethod", paymentMethod);
 
         // =========================================
         // SAVE / REMOVE UPI
         // =========================================
 
         if ("UPI".equals(paymentMethod)) {
-
-            session.setAttribute(
-                    "upiId",
-                    upiId
-            );
-
+            session.setAttribute("upiId", upiId);
         } else {
-
-            session.removeAttribute(
-                    "upiId"
-            );
+            session.removeAttribute("upiId");
         }
-
 
         // =========================================
         // GO TO REVIEW
         // =========================================
 
         response.sendRedirect(
-                request.getContextPath()
-                        + "/checkout/review"
+                request.getContextPath() + "/checkout/review"
         );
     }
 }

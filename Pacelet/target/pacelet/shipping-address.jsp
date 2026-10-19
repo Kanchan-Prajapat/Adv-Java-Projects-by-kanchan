@@ -1,12 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 
+
 <%
     String fullName = request.getParameter("fullName");
+    if (fullName == null) {
+        fullName = (String) request.getAttribute("fullName");
+    }
+
     String phone = request.getParameter("phone");
+    if (phone == null) {
+        phone = (String) request.getAttribute("phone");
+    }
+
     String pincode = request.getParameter("pincode");
+    if (pincode == null) {
+        pincode = (String) request.getAttribute("pincode");
+    }
+
     String addressLine = request.getParameter("addressLine");
+    if (addressLine == null) {
+        addressLine = (String) request.getAttribute("addressLine");
+    }
+
     String city = request.getParameter("city");
+    if (city == null) {
+        city = (String) request.getAttribute("city");
+    }
+
     String state = request.getParameter("state");
+    if (state == null) {
+        state = (String) request.getAttribute("state");
+    }
 
     if (fullName == null) fullName = "";
     if (phone == null) phone = "";
@@ -15,6 +39,7 @@
     if (city == null) city = "";
     if (state == null) state = "";
 %>
+
 
 <%
     Double bagTotalObj =

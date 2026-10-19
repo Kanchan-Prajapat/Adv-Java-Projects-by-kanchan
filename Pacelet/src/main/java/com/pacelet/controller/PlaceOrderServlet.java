@@ -1,8 +1,10 @@
+
 package com.pacelet.controller;
 
+import com.pacelet.data.OrderStore;
 import com.pacelet.model.CartItem;
 import com.pacelet.model.Order;
-import com.pacelet.data.OrderStore;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,269 +27,190 @@ public class PlaceOrderServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
+        // ==========================================
+        // 1. GET SESSION
+        // ==========================================
+
         HttpSession session = request.getSession();
 
 
         // ==========================================
-        // 1. GET CART
+        // 2. GET CART ITEMS
         // ==========================================
 
+        @SuppressWarnings("unchecked")
         List<CartItem> cart =
                 (List<CartItem>) session.getAttribute("cart");
 
         if (cart == null || cart.isEmpty()) {
-
             response.sendRedirect(
                     request.getContextPath() + "/cart"
             );
-
             return;
         }
 
 
         // ==========================================
-        // 2. CALCULATE BAG TOTAL
+        // 3. CALCULATE BAG TOTAL
         // ==========================================
 
         double bagTotal = 0;
 
         for (CartItem item : cart) {
-
-            bagTotal +=
-                    item.getPrice() * item.getQuantity();
+            bagTotal += item.getPrice() * item.getQuantity();
         }
 
 
         // ==========================================
-        // 3. GET COUPON / DISCOUNT
+        // 4. GET COUPON AND DISCOUNT
         // ==========================================
-
-        Double discountObj =
-                (Double) session.getAttribute("appliedDiscount");
-
-        double discount =
-                discountObj != null
-                        ? discountObj
-                        : 0;
-
 
         String couponCode =
                 (String) session.getAttribute("couponCode");
 
+        Object discountObject =
+                session.getAttribute("appliedDiscount");
 
-        // Prevent discount from exceeding bag total
+        double discount = 0;
 
-        if (discount > bagTotal) {
-            discount = bagTotal;
+        if (discountObject instanceof Number) {
+            discount = ((Number) discountObject).doubleValue();
         }
 
+        discount = Math.max(0, Math.min(discount, bagTotal));
 
-        double total =
-                bagTotal - discount;
+        double total = bagTotal - discount;
 
 
         // ==========================================
-        // 4. PAYMENT METHOD
+        // 5. GET PAYMENT METHOD
         // ==========================================
 
         String paymentMethod =
                 (String) session.getAttribute("paymentMethod");
 
-        if (paymentMethod == null ||
-            paymentMethod.trim().isEmpty()) {
+     if (paymentMethod == null || paymentMethod.isBlank()) {
+    paymentMethod = "COD";
+}
 
-            paymentMethod = "COD";
-        }
+        // ==========================================
+        // 6. GENERATE ORDER ID
+        // ==========================================
+
+        String orderId = "PAC-"
+                + UUID.randomUUID()
+                        .toString()
+                        .substring(0, 8)
+                        .toUpperCase();
 
 
         // ==========================================
-        // 5. GENERATE ORDER ID
-        // ==========================================
-
-        String orderId =
-                "PAC-" +
-                String.format(
-                        "%05d",
-                        (int) (Math.random() * 100000)
-                );
-
-
-        // ==========================================
-        // 6. COPY CART ITEMS
-        // ==========================================
-        // Important:
-        // Create a new list so the order keeps
-        // its own snapshot of the cart.
-
-        List<CartItem> orderItems =
-                new ArrayList<>(cart);
-
-
-        // ==========================================
-        // 7. GET SHIPPING INFORMATION
+        // 7. GET SHIPPING DETAILS
         // ==========================================
 
         String fullName =
-                (String) session.getAttribute(
-                        "shippingFullName"
-                );
+                (String) session.getAttribute("shippingFullName");
 
         String phone =
-                (String) session.getAttribute(
-                        "shippingPhone"
-                );
+                (String) session.getAttribute("shippingPhone");
 
         String addressLine =
-                (String) session.getAttribute(
-                        "shippingAddressLine"
-                );
+                (String) session.getAttribute("shippingAddressLine");
 
         String city =
-                (String) session.getAttribute(
-                        "shippingCity"
-                );
+                (String) session.getAttribute("shippingCity");
 
         String state =
-                (String) session.getAttribute(
-                        "shippingState"
-                );
+                (String) session.getAttribute("shippingState");
 
         String pincode =
-                (String) session.getAttribute(
-                        "shippingPincode"
-                );
+                (String) session.getAttribute("shippingPincode");
 
 
         // ==========================================
-        // 8. CREATE COMPLETE ORDER
+        // 8. VALIDATE SHIPPING DETAILS
         // ==========================================
 
-        Order order = new Order(
+        if (fullName == null || fullName.isBlank()
+                || phone == null || phone.isBlank()
+                || addressLine == null || addressLine.isBlank()
+                || city == null || city.isBlank()
+                || state == null || state.isBlank()
+                || pincode == null || pincode.isBlank()) {
 
-                orderId,
-
-                bagTotal,
-
-                discount,
-
-                total,
-
-                couponCode,
-
-                paymentMethod,
-
-                "Confirmed",
-
-                orderItems,
-
-                fullName,
-
-                phone,
-
-                addressLine,
-
-                city,
-
-                state,
-
-                pincode
-        );
+            response.sendRedirect(
+                    request.getContextPath() + "/checkout/address"
+            );
+            return;
+        }
 
 
-        // ==========================================
-        // 9. SAVE ORDER HISTORY
-        // ==========================================
+// ==========================================
+// 9. CREATE ORDER
+// ==========================================
 
-OrderStore.addOrder(order);
+Order order = new Order(
+        orderId,
+        bagTotal,
+        discount,
+        total,
+        couponCode,
+        paymentMethod,
+        "Confirmed",
+        new ArrayList<>(cart),
+        fullName,
+        phone,
+        addressLine,
+        city,
+        state,
+        pincode
+);
 
         // ==========================================
-        // 10. SAVE LAST ORDER DATA
+        // 10. SAVE ORDER IN SHARED ORDER STORE
         // ==========================================
 
-        session.setAttribute(
-                "lastOrderId",
-                orderId
-        );
-
-        session.setAttribute(
-                "lastOrderBagTotal",
-                bagTotal
-        );
-
-        session.setAttribute(
-                "lastOrderDiscount",
-                discount
-        );
-
-        session.setAttribute(
-                "lastOrderTotal",
-                total
-        );
-
-        session.setAttribute(
-                "lastOrderCoupon",
-                couponCode
-        );
-
-        session.setAttribute(
-                "lastOrderPaymentMethod",
-                paymentMethod
-        );
+        OrderStore.addOrder(order);
 
 
         // ==========================================
-        // 11. SAVE SHIPPING FOR CONFIRMATION
+        // 11. SAVE LAST ORDER DETAILS IN SESSION
         // ==========================================
 
-        session.setAttribute(
-                "lastOrderFullName",
-                fullName
-        );
+        session.setAttribute("lastOrderId", order.getOrderId());
+        session.setAttribute("lastOrderBagTotal", order.getBagTotal());
+        session.setAttribute("lastOrderDiscount", order.getDiscount());
+        session.setAttribute("lastOrderTotal", order.getTotal());
+        session.setAttribute("lastOrderCoupon", order.getCouponCode());
+        session.setAttribute("lastOrderStatus", order.getStatus());
+        session.setAttribute("lastOrderDate", order.getOrderDate());
+        session.setAttribute("lastOrderPaymentMethod", order.getPaymentMethod());
 
-        session.setAttribute(
-                "lastOrderPhone",
-                phone
-        );
-
-        session.setAttribute(
-                "lastOrderAddress",
-                addressLine
-        );
-
-        session.setAttribute(
-                "lastOrderCity",
-                city
-        );
-
-        session.setAttribute(
-                "lastOrderState",
-                state
-        );
-
-        session.setAttribute(
-                "lastOrderPincode",
-                pincode
-        );
+        session.setAttribute("lastOrderFullName", order.getFullName());
+        session.setAttribute("lastOrderPhone", order.getPhone());
+        session.setAttribute("lastOrderAddress", order.getAddressLine());
+        session.setAttribute("lastOrderAddressLine", order.getAddressLine());
+        session.setAttribute("lastOrderCity", order.getCity());
+        session.setAttribute("lastOrderState", order.getState());
+        session.setAttribute("lastOrderPincode", order.getPincode());
 
 
         // ==========================================
-        // 12. CLEAR CART
+        // 12. CLEAR CART AND COUPON
         // ==========================================
 
-        session.removeAttribute("cart");
+        cart.clear();
 
         session.removeAttribute("couponCode");
-
         session.removeAttribute("appliedDiscount");
 
 
         // ==========================================
-        // 13. GO TO ORDER CONFIRMATION
+        // 13. REDIRECT TO ORDER CONFIRMATION
         // ==========================================
 
         response.sendRedirect(
-                request.getContextPath()
-                        + "/order-confirmation"
+                request.getContextPath() + "/order-confirmation"
         );
     }
 }

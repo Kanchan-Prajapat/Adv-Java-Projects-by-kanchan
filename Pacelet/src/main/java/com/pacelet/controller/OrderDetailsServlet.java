@@ -1,5 +1,7 @@
+
 package com.pacelet.controller;
 
+import com.pacelet.data.OrderStore;
 import com.pacelet.model.Order;
 
 import jakarta.servlet.ServletException;
@@ -7,10 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet("/profile/order")
 public class OrderDetailsServlet extends HttpServlet {
@@ -39,43 +39,15 @@ public class OrderDetailsServlet extends HttpServlet {
 
 
         // ==========================================
-        // 2. GET SESSION
+        // 2. FIND SELECTED ORDER FROM ORDER STORE
         // ==========================================
 
-        HttpSession session =
-                request.getSession();
-
-
-        // ==========================================
-        // 3. GET ORDER HISTORY
-        // ==========================================
-
-        List<Order> orders =
-                (List<Order>) session.getAttribute("orders");
+        Order selectedOrder =
+                OrderStore.getOrder(orderId);
 
 
         // ==========================================
-        // 4. FIND SELECTED ORDER
-        // ==========================================
-
-        Order selectedOrder = null;
-
-        if (orders != null) {
-
-            for (Order order : orders) {
-
-                if (order.getOrderId().equals(orderId)) {
-
-                    selectedOrder = order;
-
-                    break;
-                }
-            }
-        }
-
-
-        // ==========================================
-        // 5. ORDER NOT FOUND
+        // 3. ORDER NOT FOUND
         // ==========================================
 
         if (selectedOrder == null) {
@@ -89,7 +61,7 @@ public class OrderDetailsServlet extends HttpServlet {
 
 
         // ==========================================
-        // 6. SEND COMPLETE ORDER TO JSP
+        // 4. SEND COMPLETE ORDER TO JSP
         // ==========================================
 
         request.setAttribute(
@@ -99,7 +71,7 @@ public class OrderDetailsServlet extends HttpServlet {
 
 
         // ==========================================
-        // 7. OPEN ORDER DETAILS PAGE
+        // 5. OPEN ORDER DETAILS PAGE
         // ==========================================
 
         request.getRequestDispatcher(

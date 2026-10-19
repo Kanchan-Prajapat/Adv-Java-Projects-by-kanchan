@@ -138,17 +138,65 @@
             </a>
 
 
-            <!-- Profile -->
-            <a
-                href="${pageContext.request.contextPath}/profile"
-                class="profile-button"
-                aria-label="Profile">
+        
+            <!-- Profile / Login -->
+            <%
+                Object loggedInUser = session.getAttribute("userId");
+                String loggedInName =
+                    (String) session.getAttribute("userName");
+            %>
 
-                <span class="material-symbols-outlined">
-                    person
+            <% if (loggedInUser != null) { %>
+
+                <a
+                    href="${pageContext.request.contextPath}/profile"
+                    class="profile-button"
+                    aria-label="Profile">
+
+                    <span class="material-symbols-outlined">
+                        person
+                    </span>
+                </a>
+
+                <span class="brand-name">
+                    <%= loggedInName != null ? loggedInName : "My Account" %>
                 </span>
 
-            </a>
+                <a href="${pageContext.request.contextPath}/logout"
+                   class="nav-icon-button"
+                   aria-label="Logout"
+                   title="Logout">
+
+                    <span class="material-symbols-outlined">
+                        logout
+                    </span>
+                </a>
+
+            <% } else { %>
+
+                <a
+                    href="${pageContext.request.contextPath}/login"
+                    class="profile-button"
+                    aria-label="Login"
+                    title="Login">
+
+                    <span class="material-symbols-outlined">
+                        person
+                    </span>
+                </a>
+
+                <a
+                    href="${pageContext.request.contextPath}/register"
+                    class="nav-icon-button"
+                    aria-label="Create account"
+                    title="Create account">
+
+                    <span class="material-symbols-outlined">
+                        person_add
+                    </span>
+                </a>
+
+            <% } %>
 
         </div>
 

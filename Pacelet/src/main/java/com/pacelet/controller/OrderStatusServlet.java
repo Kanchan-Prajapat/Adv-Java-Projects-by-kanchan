@@ -1,16 +1,17 @@
+
 package com.pacelet.controller;
 
-import com.pacelet.model.Order;
+import com.pacelet.data.OrderStore;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
-import java.util.List;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @WebServlet("/order/status")
 public class OrderStatusServlet extends HttpServlet {
@@ -21,68 +22,67 @@ public class OrderStatusServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        String orderId =
-                request.getParameter("orderId");
+        // ==========================================
+        // 1. GET ORDER ID AND NEW STATUS
+        // ==========================================
 
-        String status =
-                request.getParameter("status");
+        String orderId = request.getParameter("orderId");
+        String status = request.getParameter("status");
 
-        // Validate input
-        if (orderId == null ||
-            orderId.trim().isEmpty() ||
-            status == null ||
-            status.trim().isEmpty()) {
 
-            response.sendRedirect(
-                    request.getContextPath() + "/profile"
+        // ==========================================
+        // 2. VALIDATE STATUS
+        // ==========================================
+
+        boolean validStatus =
+                "Confirmed".equals(status)
+                || "Processing".equals(status)
+                || "Shipped".equals(status)
+                || "Delivered".equals(status);
+
+        if (orderId == null || orderId.trim().isEmpty()
+                || !validStatus) {
+
+            response.sendError(
+                    HttpServletResponse.SC_BAD_REQUEST,
+                    "Invalid order ID or status."
             );
 
             return;
         }
 
-        // Allowed statuses
-        if (!status.equals("Confirmed") &&
-            !status.equals("Processing") &&
-            !status.equals("Shipped") &&
-            !status.equals("Delivered")) {
 
-            response.sendRedirect(
-                    request.getContextPath() + "/profile"
+        // ==========================================
+        // 3. UPDATE ORDER STATUS
+        // ==========================================
+
+        boolean updated =
+                OrderStore.updateStatus(orderId, status);
+
+        if (!updated) {
+
+            response.sendError(
+                    HttpServletResponse.SC_NOT_FOUND,
+                    "Order not found."
             );
 
             return;
         }
 
-        HttpSession session =
-                request.getSession();
 
-        @SuppressWarnings("unchecked")
-        List<Order> orders =
-                (List<Order>) session.getAttribute("orders");
+        // ==========================================
+        // 4. REDIRECT TO ORDER DETAILS
+        // ==========================================
 
-        if (orders != null) {
+        String encodedOrderId = URLEncoder.encode(
+                orderId,
+                StandardCharsets.UTF_8
+        );
 
-            for (Order order : orders) {
-
-                if (order.getOrderId().equals(orderId)) {
-
-                    order.setStatus(status);
-
-                    break;
-                }
-            }
-
-            session.setAttribute(
-                    "orders",
-                    orders
-            );
-        }
-
-        // Return to order details
         response.sendRedirect(
                 request.getContextPath()
-                        + "/profile/order?orderId="
-                        + orderId
+                + "/profile/order?orderId="
+                + encodedOrderId
         );
     }
 }
