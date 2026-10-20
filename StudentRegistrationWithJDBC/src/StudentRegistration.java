@@ -210,12 +210,25 @@ public class StudentRegistration extends JFrame implements ActionListener {
             // JDBC CONNECTION
             // =========================
 
-            String url =
-                    "jdbc:mysql://localhost:3306/collegeJava";
+        String url = System.getenv().getOrDefault(
+        "COLLEGE_DB_URL",
+        "jdbc:mysql://localhost:3306/collegeJava"
+);
 
-            String username = "root";
-            String password = "Bhai@479^";
+String username = System.getenv().getOrDefault(
+        "COLLEGE_DB_USER",
+        "root"
+);
 
+String password = System.getenv("COLLEGE_DB_PASSWORD");
+
+if (password == null) {
+    JOptionPane.showMessageDialog(
+            this,
+            "Database password environment variable is not set!"
+    );
+    return;
+}
 
             String query =
                     "INSERT INTO student(id, name, gender, branch) " +
