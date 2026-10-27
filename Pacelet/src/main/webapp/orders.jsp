@@ -391,6 +391,195 @@
             }
         }
 
+        
+/* ===== RESPONSIVE MY ORDERS PAGE ===== */
+
+.orders-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+    min-width: 0;
+}
+
+.orders-list,
+.order-card,
+.order-top,
+.order-details {
+    min-width: 0;
+}
+
+.order-card {
+    width: 100%;
+}
+
+.order-id {
+    overflow-wrap: anywhere;
+}
+
+.order-status {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.order-details {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+}
+
+.detail-value {
+    overflow-wrap: anywhere;
+}
+
+.detail-value.total {
+    white-space: nowrap;
+}
+
+.view-order-btn {
+    white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 760px) {
+    .orders-page {
+        padding: 105px 20px 48px;
+    }
+
+    .order-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .view-order-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .orders-page {
+        padding: 88px 12px 36px;
+    }
+
+    .orders-header {
+        margin-bottom: 22px;
+    }
+
+    .orders-header h1 {
+        font-size: clamp(25px, 7vw, 30px);
+        line-height: 1.2;
+    }
+
+    .orders-header p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .orders-list {
+        gap: 14px;
+    }
+
+    .order-card {
+        padding: 15px;
+        border-radius: 11px;
+    }
+
+    .order-top {
+        align-items: flex-start;
+        gap: 12px;
+        padding-bottom: 15px;
+    }
+
+    .order-label,
+    .detail-label {
+        font-size: 9px;
+    }
+
+    .order-id {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .order-date {
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    .order-status {
+        padding: 6px 8px;
+        font-size: 9px;
+        flex-shrink: 0;
+    }
+
+    .order-details {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
+        padding-top: 16px;
+    }
+
+    .detail-value {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .detail-value.total {
+        font-size: 17px;
+    }
+
+    .view-order-btn {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px;
+        font-size: 10px;
+    }
+
+    .empty-orders {
+        padding: 42px 16px;
+    }
+
+    .empty-orders h2 {
+        font-size: 18px;
+    }
+
+    .empty-orders p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+    .orders-page {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .order-card {
+        padding: 12px;
+    }
+
+    .order-top {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .order-status {
+        align-self: flex-start;
+    }
+
+    .order-details {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .view-order-btn {
+        grid-column: auto;
+    }
+}
+
+
     </style>
 
 </head>

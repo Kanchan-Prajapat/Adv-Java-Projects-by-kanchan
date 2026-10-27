@@ -203,63 +203,80 @@
     </div>
 
 
-    <!-- Mobile Navigation Drawer -->
-    <div
-        id="mobileMenu"
-        class="mobile-menu">
+   
+<!-- Mobile Navigation Overlay -->
+<div
+    id="mobileMenuOverlay"
+    class="mobile-menu-overlay"
+    onclick="closeMobileMenu()">
+</div>
 
-        <div class="mobile-menu-header">
+<!-- Mobile Navigation Drawer -->
+<div
+    id="mobileMenu"
+    class="mobile-menu"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile navigation"
+    aria-hidden="true">
 
-            <span>
-                MENU
-            </span>
+    <div class="mobile-menu-header">
+        <span>MENU</span>
 
-            <button
-                type="button"
-                class="nav-icon-button"
-                onclick="toggleMobileMenu()">
+        <button
+            type="button"
+            class="nav-icon-button"
+            onclick="closeMobileMenu()"
+            aria-label="Close navigation menu">
 
-                <span class="material-symbols-outlined">
-                    close
-                </span>
-
-            </button>
-
-        </div>
-
-
-        <nav class="mobile-navigation">
-
-            <a href="${pageContext.request.contextPath}/">
-                Home
-            </a>
-
-            <a href="${pageContext.request.contextPath}/shop">
-                Shop
-            </a>
-
-            <a href="${pageContext.request.contextPath}/shop?category=men">
-                Men
-            </a>
-
-            <a href="${pageContext.request.contextPath}/shop?category=women">
-                Women
-            </a>
-
-            <a href="${pageContext.request.contextPath}/shop?category=sports">
-                Sports
-            </a>
-
-            <a href="${pageContext.request.contextPath}/shop?filter=new">
-                New Arrivals
-            </a>
-
-            <a href="${pageContext.request.contextPath}/offers">
-                Offers
-            </a>
-
-        </nav>
-
+            <span class="material-symbols-outlined">close</span>
+        </button>
     </div>
+
+    <nav class="mobile-navigation">
+        <a href="${pageContext.request.contextPath}/">Home</a>
+        <a href="${pageContext.request.contextPath}/shop">Shop</a>
+        <a href="${pageContext.request.contextPath}/shop?category=men">Men</a>
+        <a href="${pageContext.request.contextPath}/shop?category=women">Women</a>
+        <a href="${pageContext.request.contextPath}/shop?category=sports">Sports</a>
+        <a href="${pageContext.request.contextPath}/shop?filter=new">New Arrivals</a>
+        <a href="${pageContext.request.contextPath}/offers">Offers</a>
+    </nav>
+
+    <div class="mobile-account-navigation">
+        <a href="${pageContext.request.contextPath}/wishlist">
+            <span class="material-symbols-outlined">favorite</span>
+            Wishlist
+        </a>
+
+        <a href="${pageContext.request.contextPath}/cart">
+            <span class="material-symbols-outlined">shopping_bag</span>
+            Shopping Bag
+        </a>
+
+        <% if (loggedInUser != null) { %>
+            <a href="${pageContext.request.contextPath}/profile">
+                <span class="material-symbols-outlined">person</span>
+                My Account
+            </a>
+
+            <a href="${pageContext.request.contextPath}/logout">
+                <span class="material-symbols-outlined">logout</span>
+                Logout
+            </a>
+        <% } else { %>
+            <a href="${pageContext.request.contextPath}/login">
+                <span class="material-symbols-outlined">login</span>
+                Login
+            </a>
+
+            <a href="${pageContext.request.contextPath}/register">
+                <span class="material-symbols-outlined">person_add</span>
+                Create Account
+            </a>
+        <% } %>
+    </div>
+</div>
+
 
 </header>

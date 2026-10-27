@@ -145,6 +145,35 @@ public class Order implements Serializable {
         return orderDate;
     }
 
+
+public void setOrderDate(Date orderDate) {
+    this.orderDate = orderDate;
+}
+
+public void setFullName(String fullName) {
+    this.fullName = fullName;
+}
+
+public void setPhone(String phone) {
+    this.phone = phone;
+}
+
+public void setAddressLine(String addressLine) {
+    this.addressLine = addressLine;
+}
+
+public void setCity(String city) {
+    this.city = city;
+}
+
+public void setState(String state) {
+    this.state = state;
+}
+
+public void setPincode(String pincode) {
+    this.pincode = pincode;
+}
+
     // =========================
     // ORDER ITEMS
     // =========================

@@ -6,126 +6,254 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Pacelet</title>
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+       
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            background: #f7f5f2;
-            font-family: Arial, sans-serif;
-            color: #292929;
-        }
+:root {
+    --pacelet-black: #060607;
+    --pacelet-text: #191c1f;
+    --pacelet-muted: #747878;
+    --pacelet-border: #e5e7eb;
+    --pacelet-background: #f7f9fd;
+}
 
-        .login-card {
-            width: 100%;
-            max-width: 420px;
-            padding: 38px;
-            background: #fff;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-        }
+html {
+    min-height: 100%;
+}
 
-        .brand {
-            text-align: center;
-            font-size: 30px;
-            font-weight: bold;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+    background: var(--pacelet-background);
+    color: var(--pacelet-text);
+    font-family: 'Inter', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
 
-        h2 {
-            text-align: center;
-            margin: 20px 0 8px;
-        }
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 42px;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 8px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.055);
+}
 
-        .subtitle {
-            text-align: center;
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 28px;
-        }
+.brand {
+    text-align: center;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: var(--pacelet-black);
+}
 
-        label {
-            display: block;
-            margin: 16px 0 7px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.brand::after {
+    content: "STEP INTO YOUR PACE";
+    display: block;
+    margin-top: 7px;
+    color: #8f7c91;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.19em;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
+h2 {
+    margin: 34px 0 8px;
+    text-align: center;
+    font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+    font-size: clamp(24px, 5vw, 30px);
+    line-height: 1.2;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
 
-        input:focus {
-            outline: none;
-            border-color: #292929;
-        }
+.subtitle {
+    margin: 0 0 28px;
+    text-align: center;
+    color: var(--pacelet-muted);
+    font-size: 14px;
+    line-height: 1.6;
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 24px;
-            border: none;
-            border-radius: 8px;
-            background: #292929;
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-        }
+label {
+    display: block;
+    margin: 18px 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+}
 
-        button:hover {
-            background: #444;
-        }
+input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 48px;
+    padding: 0 14px;
+    border: 1px solid #dfe2e7;
+    border-radius: 4px;
+    background: #fafbfc;
+    color: var(--pacelet-text);
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
 
-        .message {
-            padding: 11px;
-            margin-bottom: 16px;
-            border-radius: 7px;
-            font-size: 13px;
-            text-align: center;
-        }
+input::placeholder {
+    color: #92969d;
+}
 
-        .error {
-            background: #fff0f0;
-            color: #b42318;
-        }
+input:focus {
+    outline: 2px solid rgba(6, 6, 7, 0.12);
+    outline-offset: 1px;
+    border-color: var(--pacelet-black);
+    background: #fff;
+}
 
-        .success {
-            background: #edf9f0;
-            color: #18713a;
-        }
+button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 26px;
+    padding: 12px 16px;
+    border: 1px solid var(--pacelet-black);
+    border-radius: 4px;
+    background: var(--pacelet-black);
+    color: #fff;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
 
-        .links {
-            text-align: center;
-            margin-top: 22px;
-            font-size: 14px;
-        }
+button:hover {
+    background: #333;
+}
 
-        a {
-            color: #292929;
-            font-weight: bold;
-        }
+button:active {
+    transform: scale(0.99);
+}
 
-        .back-home {
-            display: block;
-            margin-top: 18px;
-            text-align: center;
-            font-size: 13px;
-            color: #777;
-            text-decoration: none;
-        }
+.message {
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.error {
+    border: 1px solid #fecaca;
+    background: #fff1f2;
+    color: #b42318;
+}
+
+.success {
+    border: 1px solid #bbf7d0;
+    background: #edf9f0;
+    color: #18713a;
+}
+
+.links {
+    margin-top: 24px;
+    text-align: center;
+    color: #666;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+a {
+    color: var(--pacelet-black);
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+
+.links a {
+    display: inline-block;
+    margin-left: 3px;
+}
+
+.back-home {
+    display: block;
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #eceef2;
+    color: var(--pacelet-muted);
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+}
+
+.back-home:hover {
+    color: var(--pacelet-black);
+}
+
+/* Tablet */
+@media (max-width: 600px) {
+    body {
+        padding: 24px 16px;
+    }
+
+    .login-card {
+        max-width: 440px;
+        padding: 32px;
+    }
+}
+
+/* Small mobile */
+@media (max-width: 380px) {
+    body {
+        padding: 16px 12px;
+        align-items: flex-start;
+    }
+
+    .login-card {
+        padding: 24px 20px;
+        margin: auto 0;
+    }
+
+    .brand {
+        font-size: 24px;
+    }
+
+    h2 {
+        margin-top: 28px;
+    }
+
+    .subtitle {
+        margin-bottom: 22px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
+
     </style>
 </head>
 

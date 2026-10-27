@@ -683,6 +683,241 @@
 
         }
 
+
+        
+/* ===== RESPONSIVE PAYMENT PAGE ===== */
+
+.payment-page {
+    width: min(1120px, calc(100% - 40px));
+    margin: 100px auto 48px;
+    min-width: 0;
+}
+
+.payment-layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+    gap: 24px;
+}
+
+.payment-card,
+.summary-card {
+    min-width: 0;
+}
+
+.payment-option {
+    min-width: 0;
+}
+
+.payment-option-header {
+    flex-wrap: wrap;
+}
+
+.payment-option-title {
+    min-width: 0;
+}
+
+.payment-option-title strong {
+    overflow-wrap: anywhere;
+}
+
+.payment-meta {
+    white-space: normal;
+    text-align: right;
+}
+
+.upi-input {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.payable-box,
+.total-row {
+    gap: 12px;
+}
+
+.payable-amount,
+.total-price {
+    white-space: nowrap;
+}
+
+@media (max-width: 850px) {
+    .payment-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .summary-card {
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .payment-page {
+        width: calc(100% - 24px);
+        margin: 86px auto 32px;
+    }
+
+    .page-header {
+        margin-bottom: 22px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(25px, 7vw, 30px);
+        line-height: 1.2;
+    }
+
+    .page-header p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .checkout-progress {
+        gap: 6px;
+        margin-bottom: 20px;
+        font-size: 9px;
+        letter-spacing: 0.03em;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 6px;
+    }
+
+    .step {
+        padding: 7px 9px;
+        flex-shrink: 0;
+    }
+
+    .payment-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .payment-card,
+    .summary-card {
+        width: 100%;
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .payment-card h2,
+    .summary-card h2 {
+        font-size: 18px;
+    }
+
+    .payment-description {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .payment-option {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .payment-option-header {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .payment-option-title {
+        gap: 8px;
+    }
+
+    .payment-option-title strong {
+        font-size: 12px;
+        line-height: 1.4;
+    }
+
+    .payment-meta {
+        font-size: 10px;
+    }
+
+    .payment-badges {
+        flex-wrap: wrap;
+    }
+
+    .payment-badge {
+        font-size: 8px;
+        padding: 4px 6px;
+    }
+
+    .upi-input {
+        height: 44px;
+        font-size: 14px;
+    }
+
+    .payment-note {
+        line-height: 1.5;
+    }
+
+    .payable-label,
+    .total-label {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .payable-amount,
+    .total-price {
+        font-size: 21px;
+    }
+
+    .continue-button {
+        min-height: 48px;
+        height: auto;
+        padding: 12px 8px;
+        line-height: 1.5;
+        font-size: 10px;
+    }
+
+    .summary-row {
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .secure-note {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 360px) {
+    .payment-page {
+        width: calc(100% - 16px);
+        margin-top: 80px;
+    }
+
+    .payment-card,
+    .summary-card {
+        padding: 12px;
+    }
+
+    .checkout-progress {
+        gap: 4px;
+        font-size: 8px;
+    }
+
+    .step {
+        padding: 6px;
+    }
+
+    .payment-option {
+        padding: 10px;
+    }
+
+    .payment-option-header {
+        flex-direction: column;
+    }
+
+    .payment-meta {
+        text-align: left;
+    }
+
+    .payable-amount,
+    .total-price {
+        font-size: 19px;
+    }
+}
+
+
     </style>
 
 </head>

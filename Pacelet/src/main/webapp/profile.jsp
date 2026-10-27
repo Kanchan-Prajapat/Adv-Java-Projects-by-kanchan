@@ -629,6 +629,301 @@
                         padding: 21px;
                     }
                 }
+
+
+                
+/* ===== RESPONSIVE PACELET PROFILE ===== */
+
+.profile-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+    min-width: 0;
+}
+
+.profile-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 24px;
+}
+
+.profile-grid > *,
+.profile-hero > *,
+.card,
+.order-card {
+    min-width: 0;
+}
+
+.profile-user-name,
+.info-value,
+.order-id {
+    overflow-wrap: anywhere;
+}
+
+.profile-hero {
+    flex-wrap: wrap;
+}
+
+.edit-profile-button {
+    flex-shrink: 0;
+}
+
+.order-top,
+.order-details {
+    min-width: 0;
+}
+
+.order-status {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+}
+
+.order-payment,
+.order-total {
+    min-width: 0;
+}
+
+.order-total strong {
+    white-space: nowrap;
+}
+
+.view-order-btn,
+.all-orders-btn {
+    max-width: 100%;
+    text-align: center;
+}
+
+/* Tablet */
+@media (max-width: 760px) {
+    .profile-page {
+        padding: 105px 20px 48px;
+    }
+
+    .profile-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .profile-hero {
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .membership-badge {
+        display: none;
+    }
+
+    .card {
+        padding: 21px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .profile-page {
+        padding: 88px 12px 36px;
+    }
+
+    .profile-header {
+        margin-bottom: 22px;
+    }
+
+    .profile-header h1 {
+        font-size: clamp(25px, 7vw, 30px);
+        line-height: 1.2;
+    }
+
+    .profile-header p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .profile-hero {
+        display: grid;
+        grid-template-columns: 54px minmax(0, 1fr);
+        gap: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        border-radius: 11px;
+    }
+
+    .profile-avatar {
+        width: 54px;
+        height: 54px;
+        grid-row: 1;
+    }
+
+    .profile-avatar span {
+        font-size: 28px;
+    }
+
+    .profile-user-name {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+
+    .profile-user-phone {
+        font-size: 11px;
+        overflow-wrap: anywhere;
+    }
+
+    .edit-profile-button {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        font-size: 10px;
+    }
+
+    .profile-grid {
+        gap: 16px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 11px;
+    }
+
+    .card h2 {
+        font-size: 17px;
+        line-height: 1.4;
+        margin-bottom: 18px;
+    }
+
+    .info-row {
+        padding: 13px 0;
+    }
+
+    .info-label {
+        font-size: 9px;
+    }
+
+    .info-value {
+        font-size: 12px;
+        line-height: 1.65;
+    }
+
+    .section-heading-row {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .order-card {
+        padding: 12px;
+    }
+
+    .order-top {
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .order-label {
+        font-size: 9px;
+    }
+
+    .order-id {
+        font-size: 13px;
+        line-height: 1.5;
+    }
+
+    .order-status {
+        padding: 5px 7px;
+        font-size: 8px;
+    }
+
+    .order-details {
+        flex-wrap: wrap;
+        gap: 14px;
+    }
+
+    .order-payment {
+        font-size: 11px;
+    }
+
+    .order-payment strong {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .order-total {
+        text-align: left;
+    }
+
+    .order-total strong {
+        font-size: 17px;
+    }
+
+    .view-order-btn,
+    .all-orders-btn {
+        width: 100%;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        font-size: 10px;
+    }
+
+    .atelier-card {
+        padding: 20px;
+        margin-top: 16px;
+        border-radius: 11px;
+    }
+
+    .atelier-card h2 {
+        font-size: 19px;
+        line-height: 1.4;
+    }
+
+    .atelier-card p {
+        font-size: 12px;
+        line-height: 1.7;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+    .profile-page {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .profile-hero,
+    .card,
+    .atelier-card {
+        padding: 12px;
+    }
+
+    .profile-hero {
+        grid-template-columns: 46px minmax(0, 1fr);
+    }
+
+    .profile-avatar {
+        width: 46px;
+        height: 46px;
+    }
+
+    .profile-avatar span {
+        font-size: 24px;
+    }
+
+    .order-top {
+        flex-direction: column;
+    }
+
+    .order-details {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .order-total {
+        text-align: left;
+    }
+}
+
             </style>
 
         </head>

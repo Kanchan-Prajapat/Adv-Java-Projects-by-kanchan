@@ -26,12 +26,21 @@
             gap: 24px;
         }
 
-        .product {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-        }
+   .product {
+    display: block;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
+.product:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
         .product img {
             width: 100%;
             height: 260px;
@@ -75,59 +84,53 @@
 </head>
 
 <body>
+<h1>Pacelet Products</h1>
 
-    <h1>Pacelet Products</h1>
+<div class="products">
 
-    <div class="products">
+    <%
+        java.util.List<com.pacelet.model.Product> products =
+            (java.util.List<com.pacelet.model.Product>)
+                request.getAttribute("products");
 
-        <%
-            java.util.List<com.pacelet.model.Product> products =
-                    (java.util.List<com.pacelet.model.Product>)
-                    request.getAttribute("products");
-
+        if (products != null) {
             for (com.pacelet.model.Product product : products) {
-        %>
+    %>
 
-            <div class="product">
+        <a class="product"
+           href="<%= request.getContextPath() %>/product-detail?id=<%= product.getId() %>">
 
-                <img
-                    src="<%= product.getImages().get(0) %>"
-                    alt="<%= product.getName() %>"
-                >
+            <img
+                src="<%= product.getImages().get(0) %>"
+                alt="<%= product.getName() %>"
+            >
 
-                <span class="badge">
-                    <%= product.getBadge() %>
+            <span class="badge">
+                <%= product.getBadge() %>
+            </span>
+
+            <h2><%= product.getName() %></h2>
+
+            <p class="subtitle"><%= product.getSubtitle() %></p>
+
+            <p><%= product.getDescription() %></p>
+
+            <div class="price">
+                ₹<%= product.getPrice() %>
+
+                <span class="original-price">
+                    ₹<%= product.getOriginalPrice() %>
                 </span>
-
-                <h2>
-                    <%= product.getName() %>
-                </h2>
-
-                <p class="subtitle">
-                    <%= product.getSubtitle() %>
-                </p>
-
-                <p>
-                    <%= product.getDescription() %>
-                </p>
-
-                <div class="price">
-
-                    ₹<%= product.getPrice() %>
-
-                    <span class="original-price">
-                        ₹<%= product.getOriginalPrice() %>
-                    </span>
-
-                </div>
-
             </div>
 
-        <%
-            }
-        %>
+        </a>
 
-    </div>
+    <%
+            }
+        }
+    %>
+
+</div>
 
 </body>
 </html>

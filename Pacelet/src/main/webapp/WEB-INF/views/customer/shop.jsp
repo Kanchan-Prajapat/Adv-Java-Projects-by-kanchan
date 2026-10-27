@@ -46,18 +46,16 @@
                         color: inherit;
                     }
 
-                    .shop-page {
-
-                        width: 100%;
-                        max-width: 520px;
-
-                        margin: 0 auto;
-
-                        min-height: 100vh;
-
-                        padding-top: 76px;
-                        padding-bottom: 40px;
-                    }
+                
+.shop-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    min-height: 100vh;
+    padding-top: 76px;
+    padding-bottom: 40px;
+    overflow-x: clip;
+}
 
 
                     /* =========================
@@ -698,15 +696,231 @@
                     }
 
 
-                    @media (min-width: 700px) {
+                
+/* =========================================
+   RESPONSIVE SHOP CATALOG
+   ========================================= */
 
-                        .shop-page {
+.shop-header {
+    padding: 24px clamp(16px, 4vw, 64px) 16px;
+}
 
-                            box-shadow:
-                                0 0 40px rgba(0, 0, 0, .08);
-                        }
+.filter-bar {
+    padding-left: clamp(16px, 4vw, 64px);
+    padding-right: clamp(16px, 4vw, 64px);
+}
 
-                    }
+.category-pills {
+    padding-left: clamp(16px, 4vw, 64px);
+    padding-right: clamp(16px, 4vw, 64px);
+}
+
+.catalog {
+    padding: 20px clamp(16px, 4vw, 64px) 40px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+}
+
+.product-card {
+    min-width: 0;
+}
+
+.product-card > a {
+    display: block;
+    color: inherit;
+}
+
+.product-image-box {
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #f2f4f8;
+}
+
+.product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.product-card:hover .product-image {
+    transform: scale(1.035);
+}
+
+.product-info {
+    padding-top: 12px;
+}
+
+.product-name {
+    overflow-wrap: anywhere;
+}
+
+.price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+}
+
+.filter-overlay {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    height: 100dvh;
+}
+
+.filter-drawer {
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.filter-form {
+    min-height: 0;
+}
+
+.filter-form input[type="radio"],
+.filter-form input[type="checkbox"] {
+    width: auto;
+}
+
+/* Tablet */
+@media (min-width: 600px) {
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 28px 18px;
+    }
+
+    .shop-title {
+        font-size: 32px;
+    }
+
+    .product-name {
+        font-size: 15px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 32px 22px;
+    }
+
+    .shop-title {
+        font-size: 38px;
+    }
+
+    .product-name {
+        font-size: 16px;
+    }
+
+    .product-info {
+        padding-top: 14px;
+    }
+}
+
+/* Wide desktop */
+@media (min-width: 1440px) {
+    .product-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 32px 24px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 599px) {
+    .shop-header {
+        padding-top: 18px;
+        padding-bottom: 12px;
+    }
+
+    .shop-title {
+        font-size: clamp(23px, 6vw, 28px);
+    }
+
+    .product-count {
+        font-size: 9px;
+        white-space: nowrap;
+    }
+
+    .filter-bar {
+        top: 68px;
+        padding-top: 8px;
+        padding-bottom: 8px;
+    }
+
+    .filter-button,
+    .sort-select {
+        height: 40px;
+        font-size: 10px;
+    }
+
+    .filter-button {
+        padding: 0 10px;
+    }
+
+    .catalog {
+        padding: 14px 12px 32px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 10px;
+    }
+
+    .product-image-box {
+        aspect-ratio: 4 / 5;
+        border-radius: 5px;
+    }
+
+    .product-badge {
+        top: 6px;
+        left: 6px;
+        font-size: 8px;
+        padding: 4px 5px;
+    }
+
+    .product-info {
+        padding-top: 9px;
+    }
+
+    .product-name {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .product-subtitle {
+        font-size: 10px;
+    }
+
+    .price {
+        font-size: 13px;
+    }
+
+    .original-price,
+    .discount {
+        font-size: 9px;
+    }
+
+    .filter-drawer {
+        width: min(340px, 90vw);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-image,
+    .filter-overlay,
+    .filter-drawer {
+        transition: none;
+    }
+}
+
                 </style>
 
             </head>

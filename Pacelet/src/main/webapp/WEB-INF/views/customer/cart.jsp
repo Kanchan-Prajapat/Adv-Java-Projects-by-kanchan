@@ -59,6 +59,7 @@
 
     <meta charset="UTF-8">
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
     <title>Shopping Bag — Pacelet</title>
@@ -139,17 +140,12 @@
 
 
 
-        .cart-layout {
-
-            display: grid;
-
-            grid-template-columns: 1.6fr 1fr;
-
-            gap: 24px;
-
-        }
-
-
+     .cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+    gap: 24px;
+    align-items: start;
+}
 
         .cart-items {
 
@@ -973,7 +969,228 @@
 
         }
 
+/* ===== RESPONSIVE CART PAGE ===== */
 
+.cart-page {
+    width: min(1200px, calc(100% - 40px));
+    margin: 110px auto 60px;
+}
+
+.cart-items,
+.cart-layout,
+.item-details {
+    min-width: 0;
+}
+
+.cart-item {
+    min-width: 0;
+}
+
+.item-top {
+    flex-wrap: wrap;
+}
+
+.item-name {
+    overflow-wrap: anywhere;
+}
+
+.summary {
+    position: sticky;
+    top: 100px;
+}
+
+@media (max-width: 900px) {
+    .cart-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 20px;
+    }
+
+    .summary {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .cart-page {
+        width: calc(100% - 24px);
+        margin: 92px auto 36px;
+    }
+
+    .cart-title {
+        margin-bottom: 20px;
+    }
+
+    .cart-title h1 {
+        font-size: clamp(26px, 7vw, 32px);
+    }
+
+    .cart-title p {
+        font-size: 12px;
+    }
+
+    .cart-item {
+        gap: 12px;
+        padding: 10px;
+        border-radius: 9px;
+    }
+
+    .product-image {
+        width: 96px;
+        height: 116px;
+        border-radius: 6px;
+    }
+
+    .item-name {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .item-price {
+        font-size: 13px;
+    }
+
+    .item-subtitle {
+        margin: 4px 0 9px;
+        font-size: 11px;
+    }
+
+    .size-badge {
+        padding: 5px 7px;
+        font-size: 10px;
+    }
+
+    .quantity-control {
+        margin-top: 10px;
+    }
+
+    .quantity-control button {
+        width: 32px;
+        height: 34px;
+    }
+
+    .quantity-control span {
+        min-width: 28px;
+    }
+
+    .summary {
+        padding: 16px;
+    }
+
+    .promotion-section {
+        padding: 14px;
+    }
+
+    .coupon-form {
+        gap: 6px;
+    }
+
+    .coupon-form input {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .coupon-form button {
+        padding: 0 14px;
+    }
+
+    .total-price {
+        font-size: 22px;
+    }
+
+    .checkout-button {
+        font-size: 11px;
+        letter-spacing: .06em;
+    }
+
+    .empty-cart {
+        padding: 40px 16px;
+    }
+}
+
+@media (max-width: 360px) {
+    .cart-page {
+        width: calc(100% - 16px);
+    }
+
+    .cart-item {
+        gap: 9px;
+        padding: 8px;
+    }
+
+    .product-image {
+        width: 80px;
+        height: 100px;
+    }
+
+    .item-name {
+        font-size: 13px;
+    }
+
+    .summary {
+        padding: 12px;
+    }
+}
+
+/* Cart: mobile layout fix */
+@media screen and (max-width: 600px) {
+    .cart-page {
+        width: calc(100% - 24px);
+        margin: 88px auto 32px;
+    }
+
+    .cart-layout {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 18px;
+    }
+
+    .cart-items,
+    .summary {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .summary {
+        position: static;
+    }
+
+    .cart-item {
+        width: 100%;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .product-image {
+        width: 88px;
+        height: 105px;
+        flex-shrink: 0;
+    }
+
+    .item-details {
+        min-width: 0;
+    }
+
+    .item-top {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .item-name {
+        font-size: 13px;
+    }
+
+    .item-price {
+        font-size: 12px;
+    }
+
+    .checkout-button {
+        height: auto;
+        min-height: 48px;
+        padding: 12px 8px;
+        line-height: 1.5;
+    }
+}
 
     </style>
 

@@ -62,21 +62,15 @@
            PRODUCT PAGE
         ========================= */
 
-        .product-page {
-
-            width: 100%;
-
-            max-width: 600px;
-
-            margin: 76px auto 0;
-
-            background: #f7f9fd;
-
-            min-height: 100vh;
-
-            padding-bottom: 100px;
-        }
-
+     .product-page {
+    width: 100%;
+    max-width: none;
+    margin: 76px 0 0;
+    background: #f7f9fd;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    overflow-x: clip;
+}
 
         /* =========================
            GALLERY
@@ -180,6 +174,17 @@
 
             box-shadow: 0 2px 8px rgba(0,0,0,.08);
         }
+
+.main-image-container > form#wishlistForm {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+}
+
+.main-image-container > form#wishlistForm .wishlist-button {
+    position: static;
+}
 
 
         .material-symbols-outlined {
@@ -781,35 +786,194 @@
 }
 
 
-@media (max-width: 420px) {
 
-    .size-list {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
 
+    /* ===== RESPONSIVE PRODUCT DETAIL ===== */
+
+.product-page {
+    width: 100%;
+    max-width: 1440px;
+    margin: 76px auto 0;
+    padding: 0 clamp(16px, 4vw, 64px) 100px;
 }
 
+.product-gallery,
+.product-info,
+.option-section,
+.purchase-section {
+    min-width: 0;
+}
 
-        /* =========================
-           RESPONSIVE
-        ========================= */
+.main-image-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
 
-        @media (min-width: 901px) {
+.main-product-image {
+    max-width: 100%;
+}
 
-            .product-page {
+.thumbnail-strip {
+    padding: 12px clamp(12px, 2vw, 24px);
+}
 
-                max-width: 900px;
+.product-info {
+    padding: clamp(20px, 3vw, 36px);
+}
 
-            }
+.size-list {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+}
 
-            .main-image-container {
+.size-button {
+    min-width: 0;
+}
 
-                aspect-ratio: 1 / .85;
+/* Tablet and desktop */
+@media (min-width: 768px) {
+    .product-page {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        align-items: start;
+        column-gap: clamp(24px, 4vw, 64px);
+    }
 
-            }
+    .product-gallery {
+        grid-column: 1;
+        grid-row: 1 / span 4;
+        position: sticky;
+        top: 90px;
+        min-width: 0;
+    }
 
-        }
+    .product-info {
+        grid-column: 2;
+        padding: 12px 0 24px;
+    }
+
+    .option-section,
+    .purchase-section {
+        grid-column: 2;
+    }
+
+    .main-image-container {
+        aspect-ratio: 1 / 1;
+    }
+
+    .product-title {
+        font-size: clamp(30px, 3vw, 44px);
+        line-height: 1.12;
+    }
+
+    .purchase-actions {
+        gap: 12px;
+    }
+}
+
+/* Larger desktop */
+@media (min-width: 1200px) {
+    .product-page {
+        column-gap: 72px;
+        padding-left: 64px;
+        padding-right: 64px;
+    }
+
+    .main-image-container {
+        aspect-ratio: 1 / 0.9;
+    }
+
+    .product-title {
+        font-size: 44px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .product-page {
+        display: flex;
+        flex-direction: column;
+        padding: 0 0 80px;
+    }
+
+    .product-gallery,
+    .product-info,
+    .option-section,
+    .purchase-section {
+        width: 100%;
+    }
+
+    .product-info {
+        padding: 22px 18px;
+    }
+
+    .option-section,
+    .purchase-section {
+        margin-left: 18px;
+        margin-right: 18px;
+        width: calc(100% - 36px);
+    }
+
+    .product-title {
+        font-size: clamp(27px, 7vw, 34px);
+        overflow-wrap: anywhere;
+    }
+
+    .product-kicker {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .rating-row {
+        flex-wrap: wrap;
+    }
+
+    .main-image-container {
+        aspect-ratio: 1 / 0.95;
+    }
+
+    .thumbnail-strip {
+        gap: 10px;
+        padding: 12px 16px;
+    }
+
+    .thumbnail {
+        width: 58px;
+        height: 58px;
+    }
+
+    .size-guide-modal {
+        width: 100%;
+        max-width: 600px;
+        max-height: 85dvh;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 360px) {
+    .size-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .product-info {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .option-section,
+    .purchase-section {
+        margin-left: 14px;
+        width: calc(100% - 28px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
     </style>
 
@@ -842,17 +1006,42 @@
             </span>
 
 
-            <button
-                type="button"
-                class="wishlist-button"
-                aria-label="Save to wishlist"
-            >
+          
+<form method="post"
+      action="<%= request.getContextPath() %>/wishlist"
+      id="wishlistForm"
+      style="margin:0;">
 
-                <span class="material-symbols-outlined">
-                    favorite_border
-                </span>
+    <input type="hidden"
+           name="productId"
+           value="<%= product.getId() %>">
 
-            </button>
+    <input type="hidden"
+           name="action"
+           id="wishlistAction"
+           value="<%= Boolean.TRUE.equals(request.getAttribute("inWishlist"))
+                   ? "remove" : "add" %>">
+
+    <button type="submit"
+            class="wishlist-button"
+            id="wishlistButton"
+            aria-label="<%= Boolean.TRUE.equals(request.getAttribute("inWishlist"))
+                    ? "Remove from wishlist" : "Add to wishlist" %>"
+            title="<%= Boolean.TRUE.equals(request.getAttribute("inWishlist"))
+                    ? "Remove from wishlist" : "Add to wishlist" %>">
+
+        <span class="material-symbols-outlined"
+              id="wishlistIcon"
+              style="<%= Boolean.TRUE.equals(request.getAttribute("inWishlist"))
+                      ? "font-variation-settings: 'FILL' 1; color: #d62828;"
+                      : "" %>">
+            <%= Boolean.TRUE.equals(request.getAttribute("inWishlist"))
+                    ? "favorite" : "favorite_border" %>
+        </span>
+
+    </button>
+</form>
+
 
 
             <img

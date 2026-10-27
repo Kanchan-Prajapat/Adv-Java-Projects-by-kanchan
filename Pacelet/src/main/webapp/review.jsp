@@ -737,6 +737,307 @@
 
         }
 
+
+        
+/* ===== PACELET REVIEW ORDER RESPONSIVE ===== */
+
+.review-page {
+    width: min(1100px, calc(100% - 40px));
+    margin: 105px auto 56px;
+    min-width: 0;
+}
+
+.review-layout {
+    grid-template-columns: minmax(0, 1.45fr) minmax(280px, 0.85fr);
+    gap: 22px;
+}
+
+.left-column,
+.review-card,
+.summary-card,
+.cart-item,
+.product-info {
+    min-width: 0;
+}
+
+.address-text,
+.address-name,
+.payment-method-detail,
+.product-name,
+.product-subtitle {
+    overflow-wrap: anywhere;
+}
+
+.summary-card {
+    position: sticky;
+    top: 100px;
+}
+
+.payment-method-box {
+    min-width: 0;
+    flex-wrap: wrap;
+}
+
+.payment-method-box > div {
+    min-width: 0;
+    flex: 1;
+}
+
+.payment-status {
+    flex-shrink: 0;
+}
+
+.product-meta {
+    flex-wrap: wrap;
+    row-gap: 6px;
+}
+
+.summary-row {
+    min-width: 0;
+}
+
+.summary-row > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.total-price {
+    white-space: nowrap;
+}
+
+.place-order-button {
+    min-height: 50px;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 900px) {
+    .review-page {
+        width: calc(100% - 32px);
+        margin-top: 100px;
+    }
+
+    .review-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .summary-card {
+        position: static;
+    }
+
+    .left-column {
+        gap: 16px;
+    }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    .review-page {
+        width: calc(100% - 24px);
+        margin: 88px auto 32px;
+    }
+
+    .page-header {
+        margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(25px, 7vw, 30px);
+        line-height: 1.25;
+    }
+
+    .page-header p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .checkout-progress {
+        gap: 7px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 8px;
+        scrollbar-width: thin;
+    }
+
+    .step {
+        padding: 7px 10px;
+        font-size: 9px;
+        flex-shrink: 0;
+    }
+
+    .review-layout {
+        gap: 16px;
+    }
+
+    .left-column {
+        gap: 14px;
+    }
+
+    .review-card,
+    .summary-card {
+        padding: 16px;
+        border-radius: 11px;
+    }
+
+    .review-card h2,
+    .summary-card h2 {
+        font-size: 17px;
+        line-height: 1.4;
+        margin-bottom: 15px;
+    }
+
+    .address-header {
+        gap: 10px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .address-header h2 {
+        font-size: 17px;
+    }
+
+    .verified {
+        font-size: 8px;
+    }
+
+    .address-name {
+        font-size: 13px;
+    }
+
+    .address-text {
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .payment-method-box {
+        padding: 12px;
+        gap: 10px;
+    }
+
+    .payment-method-name {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .payment-method-detail {
+        font-size: 10px;
+    }
+
+    .payment-status {
+        font-size: 8px;
+        padding: 5px 7px;
+    }
+
+    .cart-item {
+        gap: 10px;
+        padding: 12px 0;
+        align-items: flex-start;
+    }
+
+    .product-image {
+        width: 66px;
+        height: 72px;
+    }
+
+    .product-info {
+        flex: 1;
+    }
+
+    .product-name {
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .product-subtitle {
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .product-meta {
+        gap: 7px;
+        font-size: 9px;
+    }
+
+    .product-price {
+        font-size: 11px;
+    }
+
+    .summary-row {
+        gap: 10px;
+        font-size: 12px;
+    }
+
+    .total-label {
+        font-size: 10px;
+    }
+
+    .total-price {
+        font-size: 22px;
+    }
+
+    .place-order-button {
+        margin-top: 18px;
+        min-height: 48px;
+        height: auto;
+        padding: 12px 8px;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .secure-note {
+        font-size: 10px;
+        line-height: 1.7;
+    }
+}
+
+/* ===== NARROW PHONES: 320px ===== */
+@media (max-width: 360px) {
+    .review-page {
+        width: calc(100% - 16px);
+        margin-top: 82px;
+    }
+
+    .review-card,
+    .summary-card {
+        padding: 12px;
+    }
+
+    .checkout-progress {
+        gap: 5px;
+        font-size: 9px;
+    }
+
+    .step {
+        padding: 7px 8px;
+    }
+
+    .address-header {
+        flex-direction: column;
+    }
+
+    .cart-item {
+        gap: 8px;
+    }
+
+    .product-image {
+        width: 55px;
+        height: 62px;
+    }
+
+    .product-price {
+        font-size: 10px;
+    }
+
+    .summary-row {
+        font-size: 11px;
+    }
+
+    .total-price {
+        font-size: 19px;
+    }
+}
+
+
     </style>
 
 </head>

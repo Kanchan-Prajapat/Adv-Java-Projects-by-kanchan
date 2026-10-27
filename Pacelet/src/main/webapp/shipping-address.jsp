@@ -434,6 +434,196 @@
             }
         }
 
+        
+/* ===== PACELET RESPONSIVE CHECKOUT ADDRESS ===== */
+
+.address-page {
+    width: min(1120px, calc(100% - 40px));
+    margin: 100px auto 48px;
+    min-width: 0;
+}
+
+.address-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.9fr);
+    gap: 24px;
+    align-items: start;
+}
+
+.address-card,
+.summary-card {
+    min-width: 0;
+}
+
+.form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-group input,
+.form-group textarea {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.checkout-progress {
+    flex-wrap: wrap;
+    row-gap: 8px;
+}
+
+.total-row {
+    gap: 12px;
+}
+
+.total-price {
+    white-space: nowrap;
+}
+
+/* Tablet */
+@media (max-width: 850px) {
+    .address-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .summary-card {
+        width: 100%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .address-page {
+        width: calc(100% - 24px);
+        margin: 86px auto 32px;
+    }
+
+    .page-header {
+        margin-bottom: 22px;
+    }
+
+    .page-header h1 {
+        font-size: clamp(25px, 7vw, 30px);
+        line-height: 1.2;
+    }
+
+    .page-header p {
+        font-size: 12px;
+        line-height: 1.6;
+    }
+
+    .checkout-progress {
+        gap: 6px;
+        margin-bottom: 20px;
+        font-size: 9px;
+        letter-spacing: 0.03em;
+    }
+
+    .step {
+        padding: 7px 9px;
+        white-space: nowrap;
+    }
+
+    .address-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .address-card,
+    .summary-card {
+        width: 100%;
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .address-card h2,
+    .summary-card h2 {
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .form-group label {
+        font-size: 10px;
+    }
+
+    .form-group input {
+        height: 46px;
+        font-size: 16px;
+    }
+
+    .form-group textarea {
+        min-height: 100px;
+        font-size: 16px;
+    }
+
+    .continue-button {
+        height: auto;
+        min-height: 48px;
+        padding: 12px;
+        margin-top: 18px;
+        line-height: 1.5;
+        font-size: 10px;
+    }
+
+    .summary-row {
+        gap: 12px;
+        font-size: 12px;
+    }
+
+    .summary-row > :first-child {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .total-label {
+        font-size: 10px;
+    }
+
+    .total-price {
+        font-size: 22px;
+    }
+
+    .secure-note {
+        font-size: 11px;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+    .address-page {
+        width: calc(100% - 16px);
+        margin-top: 80px;
+    }
+
+    .address-card,
+    .summary-card {
+        padding: 12px;
+    }
+
+    .checkout-progress {
+        gap: 4px;
+        font-size: 8px;
+    }
+
+    .step {
+        padding: 6px;
+    }
+
+    .total-price {
+        font-size: 19px;
+    }
+}
+
+
     </style>
 
 </head>

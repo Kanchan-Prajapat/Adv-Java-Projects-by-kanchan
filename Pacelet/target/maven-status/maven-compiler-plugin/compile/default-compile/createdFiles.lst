@@ -1,8 +1,10 @@
 com\pacelet\controller\UpdateCartServlet.class
+com\pacelet\data\CartDAO.class
 com\pacelet\controller\ShopServlet.class
 com\pacelet\data\DBTest.class
 com\pacelet\dao\UserDAO$UserProfileData.class
 com\pacelet\dao\UserDAO.class
+com\pacelet\data\ProductDAO.class
 com\pacelet\controller\RemoveCouponServlet.class
 com\pacelet\model\Order.class
 com\pacelet\controller\ShippingAddressServlet.class
@@ -20,6 +22,7 @@ com\pacelet\controller\CartServlet.class
 com\pacelet\controller\PaymentServlet.class
 com\pacelet\data\OrderStore.class
 com\pacelet\controller\PlaceOrderServlet.class
+com\pacelet\data\WishlistDAO.class
 com\pacelet\data\DBConnection.class
 com\pacelet\controller\OrderStatusServlet.class
 com\pacelet\controller\RemoveCartServlet.class
@@ -31,5 +34,6 @@ com\pacelet\data\OrderDAO.class
 com\pacelet\data\ProductData.class
 com\pacelet\controller\ReviewServlet.class
 com\pacelet\controller\EditProfileServlet.class
+com\pacelet\controller\WishlistServlet.class
 com\pacelet\controller\CouponServlet.class
 com\pacelet\controller\HomeServlet.class

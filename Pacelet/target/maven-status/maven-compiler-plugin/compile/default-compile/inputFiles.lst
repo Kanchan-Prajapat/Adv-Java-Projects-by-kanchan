@@ -22,12 +22,16 @@ C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\controller\ShippingAddressServlet.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\controller\ShopServlet.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\controller\UpdateCartServlet.java
+C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\controller\WishlistServlet.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\dao\UserDAO.java
+C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\CartDAO.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\DBConnection.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\DBTest.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\OrderDAO.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\OrderStore.java
+C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\ProductDAO.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\ProductData.java
+C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\data\WishlistDAO.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\model\CartItem.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\model\Order.java
 C:\Users\kanch\Documents\CollegePractice\Java\Pacelet\src\main\java\com\pacelet\model\Product.java

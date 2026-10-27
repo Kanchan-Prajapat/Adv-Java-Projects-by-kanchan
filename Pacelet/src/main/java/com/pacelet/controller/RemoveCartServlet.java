@@ -1,5 +1,7 @@
+
 package com.pacelet.controller;
 
+import com.pacelet.data.CartDAO;
 import com.pacelet.model.CartItem;
 
 import jakarta.servlet.ServletException;
@@ -10,11 +12,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @WebServlet("/cart/remove")
 public class RemoveCartServlet extends HttpServlet {
+
+    private final CartDAO cartDAO = new CartDAO();
 
     @Override
     protected void doPost(
@@ -22,45 +28,88 @@ public class RemoveCartServlet extends HttpServlet {
             HttpServletResponse response
     ) throws ServletException, IOException {
 
-        String productId =
-                request.getParameter("productId");
+        String productId = request.getParameter("productId");
+        String sizeParam = request.getParameter("size");
 
-        String sizeParam =
-                request.getParameter("size");
-
-        int size =
-                Integer.parseInt(sizeParam);
-
-        HttpSession session =
-                request.getSession();
-
-        List<CartItem> cart =
-                (List<CartItem>) session.getAttribute("cart");
-
-        if (cart != null) {
-
-            Iterator<CartItem> iterator =
-                    cart.iterator();
-
-            while (iterator.hasNext()) {
-
-                CartItem item =
-                        iterator.next();
-
-                if (
-                    item.getProductId().equals(productId)
-                    && item.getSize() == size
-                ) {
-
-                    iterator.remove();
-
-                    break;
-                }
-            }
+        if (productId == null || productId.isBlank()
+                || sizeParam == null) {
+            response.sendError(
+                    HttpServletResponse.SC_BAD_REQUEST,
+                    "Invalid cart request."
+            );
+            return;
         }
 
-        response.sendRedirect(
-                request.getContextPath() + "/cart"
-        );
+        int size;
+
+        try {
+            size = Integer.parseInt(sizeParam);
+
+            if (size <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            response.sendError(
+                    HttpServletResponse.SC_BAD_REQUEST,
+                    "Invalid product size."
+            );
+            return;
+        }
+
+        HttpSession session = request.getSession();
+        Object userIdObject = session.getAttribute("userId");
+
+        try {
+            if (userIdObject instanceof Number) {
+                // Logged-in user: remove from the database.
+                int userId = ((Number) userIdObject).intValue();
+
+                cartDAO.removeItem(userId, productId, size);
+
+                // Refresh the session cart from MySQL.
+                session.setAttribute(
+                        "cart",
+                        cartDAO.getCartItems(userId)
+                );
+
+            } else {
+                // Guest user: remove from the session cart.
+                @SuppressWarnings("unchecked")
+                List<CartItem> cart =
+                        (List<CartItem>) session.getAttribute("cart");
+
+                if (cart == null) {
+                    cart = new ArrayList<>();
+                }
+
+                Iterator<CartItem> iterator = cart.iterator();
+
+                while (iterator.hasNext()) {
+                    CartItem item = iterator.next();
+
+                    if (item.getProductId().equals(productId)
+                            && item.getSize() == size) {
+                        iterator.remove();
+                        break;
+                    }
+                }
+
+                session.setAttribute("cart", cart);
+            }
+
+            response.sendRedirect(
+                    request.getContextPath() + "/cart"
+            );
+
+        } catch (SQLException e) {
+            getServletContext().log(
+                    "Unable to remove item from cart.", e
+            );
+
+            response.sendError(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Unable to remove this item. Please try again."
+            );
+        }
     }
 }

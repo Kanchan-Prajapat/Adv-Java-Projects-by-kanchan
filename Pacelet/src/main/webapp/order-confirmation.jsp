@@ -633,6 +633,222 @@
             }
         }
 
+
+        
+/* ===== RESPONSIVE ORDER CONFIRMATION ===== */
+
+.confirmation-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 120px 24px 64px;
+    min-width: 0;
+}
+
+.confirmation-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+    gap: 24px;
+}
+
+.confirmation-grid > div,
+.card {
+    min-width: 0;
+}
+
+.order-id {
+    overflow-wrap: anywhere;
+}
+
+.address-line {
+    overflow-wrap: anywhere;
+}
+
+.summary-row,
+.total-row {
+    gap: 12px;
+}
+
+.summary-row > span,
+.summary-row > strong,
+.total-label {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.total-value {
+    white-space: nowrap;
+}
+
+.actions {
+    flex-wrap: wrap;
+}
+
+.action-button {
+    max-width: 100%;
+}
+
+/* Tablet */
+@media (max-width: 760px) {
+    .confirmation-page {
+        padding: 105px 20px 48px;
+    }
+
+    .confirmation-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .action-button {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .confirmation-page {
+        padding: 88px 12px 36px;
+    }
+
+    .success-header {
+        margin-bottom: 28px;
+    }
+
+    .success-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 18px;
+    }
+
+    .success-icon span {
+        font-size: 32px;
+    }
+
+    .success-header h1 {
+        font-size: clamp(24px, 6.5vw, 29px);
+        line-height: 1.25;
+        letter-spacing: -0.02em;
+    }
+
+    .success-header p {
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .order-id-card {
+        width: 100%;
+        margin-top: 22px;
+        padding: 16px 12px;
+    }
+
+    .order-id {
+        font-size: clamp(16px, 4.5vw, 20px);
+        letter-spacing: 0.04em;
+    }
+
+    .confirmation-grid {
+        margin-top: 24px;
+        gap: 16px;
+    }
+
+    .card {
+        padding: 16px;
+        border-radius: 11px;
+    }
+
+    .card h2 {
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+
+    .customer-name {
+        font-size: 15px;
+    }
+
+    .address-line {
+        font-size: 13px;
+        line-height: 1.65;
+    }
+
+    .phone {
+        font-size: 12px;
+        overflow-wrap: anywhere;
+    }
+
+    .payment-box {
+        padding: 14px;
+    }
+
+    .payment-value {
+        font-size: 14px;
+        overflow-wrap: anywhere;
+    }
+
+    .summary-row {
+        font-size: 12px;
+        margin-bottom: 13px;
+    }
+
+    .total-label {
+        font-size: 10px;
+        line-height: 1.5;
+        letter-spacing: 0.06em;
+    }
+
+    .total-value {
+        font-size: 22px;
+    }
+
+    .delivery-note {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .actions {
+        gap: 10px;
+        margin-top: 24px;
+    }
+
+    .action-button {
+        min-height: 48px;
+        height: auto;
+        padding: 12px 10px;
+        font-size: 10px;
+        line-height: 1.5;
+        text-align: center;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 360px) {
+    .confirmation-page {
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .card {
+        padding: 12px;
+    }
+
+    .order-id-card {
+        padding: 14px 8px;
+    }
+
+    .total-value {
+        font-size: 19px;
+    }
+}
+
+
     </style>
 
 </head>

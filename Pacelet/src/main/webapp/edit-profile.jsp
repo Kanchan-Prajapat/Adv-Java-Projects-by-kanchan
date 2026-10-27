@@ -369,6 +369,157 @@
 
         }
 
+
+        
+/* ===== PACELET EDIT PROFILE RESPONSIVE ===== */
+
+.edit-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 120px 24px 60px;
+    min-width: 0;
+}
+
+.edit-card {
+    width: 100%;
+    min-width: 0;
+}
+
+.edit-header h1 {
+    line-height: 1.2;
+}
+
+.form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.form-group {
+    min-width: 0;
+}
+
+.form-input {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.button {
+    min-width: 0;
+}
+
+/* Tablet */
+@media (max-width: 760px) {
+    .edit-page {
+        padding: 108px 20px 48px;
+    }
+
+    .edit-card {
+        padding: 24px;
+    }
+
+    .edit-header h1 {
+        font-size: 29px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    .edit-page {
+        padding: 94px 14px 36px;
+    }
+
+    .edit-header {
+        margin-bottom: 20px;
+    }
+
+    .edit-header h1 {
+        font-size: clamp(25px, 7vw, 29px);
+    }
+
+    .edit-header p {
+        font-size: 12px;
+        line-height: 1.7;
+    }
+
+    .edit-card {
+        padding: 18px 15px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        margin-bottom: 18px;
+    }
+
+    .section-divider {
+        margin: 24px 0;
+    }
+
+    .form-row {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+    }
+
+    .form-group {
+        margin-bottom: 17px;
+    }
+
+    .form-label {
+        font-size: 10px;
+    }
+
+    .form-input {
+        height: 47px;
+        padding: 0 12px;
+        font-size: 13px;
+    }
+
+    textarea.form-input {
+        min-height: 100px;
+        height: auto;
+        padding-top: 12px;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+        gap: 10px;
+        margin-top: 22px;
+    }
+
+    .button {
+        width: 100%;
+        min-height: 46px;
+        flex: none;
+        font-size: 10px;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+    .edit-page {
+        padding-right: 9px;
+        padding-left: 9px;
+    }
+
+    .edit-card {
+        padding: 15px 12px;
+    }
+
+    .edit-header h1 {
+        font-size: 25px;
+    }
+
+    .form-input {
+        font-size: 12px;
+    }
+}
+
+
     </style>
 
 </head>

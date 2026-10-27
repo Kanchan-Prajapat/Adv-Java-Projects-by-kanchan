@@ -65,14 +65,16 @@
             cursor: pointer;
         }
 
-        .pacelet-page {
-            width: 100%;
-            max-width: 520px;
-            margin: 0 auto;
-            background: #f7f9fd;
-            min-height: 100vh;
-             padding-top: 76px;
-        }
+      
+.pacelet-page {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    background: #f7f9fd;
+    min-height: 100vh;
+    padding-top: 76px;
+    overflow-x: clip;
+}
 
         /* =========================================
            HERO
@@ -569,28 +571,154 @@
            BEST SELLER
         ========================================= */
 
-        .spotlight-card {
-            overflow: hidden;
+      
+/* =========================================
+   BEST SELLERS — RESPONSIVE SPOTLIGHT
+   ========================================= */
 
-            background: white;
+.spotlight-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    align-items: stretch;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #eceef2;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
 
-            border: 1px solid #eceef2;
-            border-radius: 3px;
+.spotlight-card > a {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    background: #f2f4f8;
+}
 
-            box-shadow: 0 1px 4px rgba(0,0,0,.04);
-        }
+.spotlight-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    max-height: 540px;
+    aspect-ratio: auto;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.4s ease;
+}
 
-        .spotlight-image {
-            width: 100%;
-            aspect-ratio: 4 / 3;
+.spotlight-card > a:hover .spotlight-image {
+    transform: scale(1.025);
+}
 
-            object-fit: cover;
-            display: block;
-        }
+.spotlight-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    min-width: 0;
+    padding: clamp(24px, 4vw, 56px);
+}
 
-        .spotlight-info {
-            padding: 16px;
-        }
+.spotlight-title {
+    margin: 14px 0 4px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: clamp(24px, 2.5vw, 36px);
+    line-height: 1.15;
+    font-weight: 800;
+}
+
+.spotlight-subtitle {
+    color: #505f76;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.spotlight-description {
+    margin: 18px 0;
+    color: #444748;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.spotlight-price {
+    margin-top: 20px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.size-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.size {
+    min-width: 42px;
+    height: 42px;
+    border: 1px solid #e0e2e6;
+    border-radius: 4px;
+    background: white;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.spotlight-button {
+    width: 100%;
+    min-height: 48px;
+    margin-top: 18px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 4px;
+    background: #060607;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* Tablet and mobile */
+@media (max-width: 900px) {
+    .spotlight-card {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .spotlight-image {
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        aspect-ratio: 16 / 10;
+    }
+
+    .spotlight-info {
+        padding: 24px;
+    }
+
+    .spotlight-title {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    .spotlight-info {
+        padding: 18px;
+    }
+
+    .spotlight-title {
+        font-size: 23px;
+    }
+
+    .spotlight-description {
+        font-size: 13px;
+    }
+
+    .spotlight-price {
+        font-size: 21px;
+    }
+}
+
 
         .limited-badge {
             display: inline-block;
@@ -940,14 +1068,219 @@
             font-size: 10px;
         }
 
-        @media (min-width: 700px) {
+      @media (min-width: 700px) {
+    .pacelet-page {
+        box-shadow: 0 0 40px rgba(0,0,0,.08);
+    }
+}
 
-            .pacelet-page {
-                box-shadow:
-                    0 0 40px rgba(0,0,0,.08);
-            }
 
-        }
+/* =========================================
+   RESPONSIVE HOME PAGE
+   ========================================= */
+
+/* Desktop and large screens */
+@media (min-width: 901px) {
+    .hero-image-wrapper {
+        aspect-ratio: 21 / 8;
+        max-height: 680px;
+    }
+
+    .hero-content {
+        padding: clamp(32px, 5vw, 72px);
+    }
+
+    .hero-title {
+        font-size: clamp(56px, 6vw, 92px);
+    }
+
+    .hero-description {
+        max-width: 460px;
+        font-size: 15px;
+    }
+
+    .hero-actions {
+        max-width: 380px;
+    }
+
+    .section {
+        padding: 42px clamp(24px, 4vw, 64px) 16px;
+    }
+
+    .section-title {
+        font-size: clamp(28px, 2.5vw, 38px);
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+    }
+
+    .product-info {
+        padding: 16px;
+    }
+
+    .product-name {
+        font-size: 16px;
+    }
+
+    .everyday-section {
+        padding: 20px clamp(24px, 4vw, 64px);
+    }
+
+    .everyday-card {
+        padding: clamp(28px, 4vw, 56px);
+    }
+
+    .everyday-title {
+        font-size: 34px;
+    }
+
+    .promotion {
+        margin: 20px clamp(24px, 4vw, 64px);
+        padding: 36px;
+    }
+
+    .promise-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .newsletter {
+        padding: 56px 24px;
+    }
+
+    .newsletter-form {
+        flex-direction: row;
+        max-width: 520px;
+    }
+
+    .newsletter-form .newsletter-input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .newsletter-form .newsletter-button {
+        width: auto;
+        padding: 0 20px;
+        flex-shrink: 0;
+    }
+
+    .footer {
+        padding: 48px clamp(24px, 4vw, 64px) 32px;
+    }
+}
+
+/* Tablets */
+@media (min-width: 600px) and (max-width: 900px) {
+    .hero-image-wrapper {
+        aspect-ratio: 16 / 9;
+        max-height: 560px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+
+    .section {
+        padding-left: 28px;
+        padding-right: 28px;
+    }
+
+    .everyday-section,
+    .promotion {
+        margin-left: 28px;
+        margin-right: 28px;
+    }
+
+    .promise-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* Small mobile screens */
+@media (max-width: 599px) {
+    .hero-image-wrapper {
+        aspect-ratio: 4 / 5;
+    }
+
+    .hero-content {
+        padding: 20px 16px;
+    }
+
+    .section {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .product-info {
+        padding: 10px;
+    }
+
+    .product-name {
+        font-size: 13px;
+        overflow-wrap: anywhere;
+    }
+
+    .price-row {
+        flex-wrap: wrap;
+        gap: 4px 7px;
+    }
+
+    .price {
+        font-size: 14px;
+    }
+
+    .everyday-section {
+        padding: 12px 16px;
+    }
+
+    .everyday-card {
+        padding: 20px;
+    }
+
+    .promotion {
+        margin: 8px 16px;
+        padding: 20px 16px;
+    }
+
+    .promise-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .spotlight-info {
+        padding: 14px;
+    }
+
+    .size-list {
+        flex-wrap: wrap;
+    }
+
+    .newsletter {
+        padding: 36px 16px;
+    }
+
+    .footer {
+        padding: 32px 16px 24px;
+    }
+}
+
+/* Prevent oversized content from causing horizontal scrolling */
+.pacelet-page img {
+    max-width: 100%;
+}
+
+.pacelet-page button,
+.pacelet-page a {
+    -webkit-tap-highlight-color: transparent;
+}
+
 
     </style>
 

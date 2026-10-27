@@ -3,6 +3,9 @@ package com.pacelet.controller;
 
 import com.pacelet.dao.UserDAO;
 import com.pacelet.dao.UserDAO.UserLoginData;
+import com.pacelet.data.CartDAO;
+import com.pacelet.model.CartItem;
+
 import org.mindrot.jbcrypt.BCrypt;
 
 import jakarta.servlet.ServletException;
@@ -14,11 +17,14 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 
     private final UserDAO userDAO = new UserDAO();
+    private final CartDAO cartDAO = new CartDAO();
 
     @Override
     protected void doGet(
@@ -49,7 +55,6 @@ public class LoginServlet extends HttpServlet {
                     "error",
                     "Please enter your email and password."
             );
-
             doGet(request, response);
             return;
         }
@@ -68,7 +73,6 @@ public class LoginServlet extends HttpServlet {
                         "error",
                         "Invalid email or password."
                 );
-
                 doGet(request, response);
                 return;
             }
@@ -80,19 +84,37 @@ public class LoginServlet extends HttpServlet {
             }
 
             HttpSession session = request.getSession(true);
+
             session.setAttribute("userId", user.getUserId());
             session.setAttribute("userName", user.getFullName());
             session.setAttribute("userEmail", user.getEmail());
             session.setMaxInactiveInterval(30 * 60);
+
+            // Restore this user's saved cart from MySQL.
+            try {
+                List<CartItem> savedCart =
+                        cartDAO.getCartItems(user.getUserId());
+
+                session.setAttribute("cart", savedCart);
+
+            } catch (SQLException e) {
+                getServletContext().log(
+                        "Unable to restore saved cart after login.", e
+                );
+
+                session.setAttribute("cart", new ArrayList<CartItem>());
+                session.setAttribute(
+                        "cartLoadError",
+                        "Your saved cart could not be loaded."
+                );
+            }
 
             response.sendRedirect(
                     request.getContextPath() + "/"
             );
 
         } catch (SQLException e) {
-            throw new ServletException(
-                    "Unable to log in.", e
-            );
+            throw new ServletException("Unable to log in.", e);
         }
     }
 }
